@@ -1,24 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useLocation } from "react-router-dom";
+import "./App.css";
+import DrawerComponent from "./components/test/DrawerComponent";
+import Header from "./layout/Header";
+import Router from "./router";
 
 function App() {
+  const currentPath = useLocation();
+  console.log("currentPath", currentPath.pathname);
+
+  const backspacePath = ["/test", "/test/checkup"];
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="w-full h-auto min-w-[360px] max-w-[768px] mx-auto bg-white">
+        {backspacePath.includes(currentPath.pathname) && (
+          <Header pathName={currentPath.pathname} />
+        )}
+        <Router />
+      </div>
+      <DrawerComponent />
     </div>
   );
 }
