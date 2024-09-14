@@ -13,3 +13,4 @@ export * from "./form";
 export * from "./separator";
 export * from "./tooltip";
 export * from "./skeleton";
+export * from "./badge";

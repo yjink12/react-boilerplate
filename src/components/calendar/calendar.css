@@ -1,0 +1,142 @@
+.react-calendar {
+    /* background-color: #171717; */
+    border: none;
+}
+/* 년-월 */
+.react-calendar__navigation__label > span {
+    font-family: SUIT Variable;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 140%;
+}
+/* 요일 */
+.react-calendar__month-view__weekdays__weekday{
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #696969;
+}
+/* 주중 */
+.react-calendar__month-view__days__day {
+    /* color: #fff; */
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    padding-bottom: 70px;
+}
+/* 주말 */
+.react-calendar__month-view__days__day--weekend {
+    /* color: #020817; */
+    width: 44px;
+    height: 44px;
+    text-align: center;
+}
+/* 이번 달 일자 */
+.react-calendar__tile{
+    /* color: #fff; */
+    font-size: 13px;
+    /* font-weight: bold; */
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+/* 저번 달 & 다음 달 일자 */
+/* .react-calendar__month-view__days__day--neighboringMonth{
+    color: #919191;
+    font-size: 15px;
+    font-weight: bold;
+    width: 44px;
+    height: 50px;
+} */
+/* 오늘 날짜 */
+.react-calendar__tile--now{
+    background-color: #fff;
+    color: #020817;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 50px;
+}
+/* hover 시 색상 변경 */
+/* .react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background: #a6e2fd;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 80px;
+} */
+/* 일정 있는 날 표시 점 */
+/* 예약불가 */ 
+.disabled {
+    height: 20px;
+    width: 40px;
+    /* background-color: #fcd683; */
+    /* border-radius: 10px; */
+    /* border-radius: 50%; */
+    text-align: center;
+    margin-top: 3px;
+    color: #fd1818;
+    font-size: 10px;
+    font-weight: bolder;
+    text-decoration-line: underline;
+}
+/* 예약가능 */
+.possible {
+    height: 20px;
+    width: 40px;
+    /* background-color: #fcd683; */
+    /* border-radius: 10px; */
+    /* border-radius: 50%; */
+    text-align: center;
+    margin-top: 3px;
+    color: #0cb10c;
+    font-size: 10px;
+    font-weight: bolder;
+    text-decoration-line: underline;
+}
+/* 일부마감 */
+.almostDone {
+    height: 20px;
+    width: 40px;
+    /* background-color: #fcd683; */
+    /* border-radius: 10px; */
+    /* border-radius: 50%; */
+    text-align: center;
+    margin-top: 3px;
+    color: #ffa602;
+    font-size: 10px;
+    font-weight: bolder;
+    text-decoration-line: underline;
+}
+/* 오늘 날짜 */
+.today {
+    padding-top: 4px;
+    font-size: 13px;
+    color: #303030;
+}
+.react-calendar__tile--active {
+    background: #b9e6fa;
+    border-radius: 10px;
+    color: white;
+}
+/* .react-calendar__tile:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+    background: #b9e6fa;
+    color: #020817;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 80px;
+} */
+.react-calendar__tile--active:enabled:hover,
+.react-calendar__tile--active:enabled:focus {
+  background: #b9e6fa;
+}
+/* 비활성 날짜 */
+.title_disabled {
+    color: #aaa7a7;
+}
+/* 토요일 */
+.title_saturday {
+    color: #1d20f8;
+}

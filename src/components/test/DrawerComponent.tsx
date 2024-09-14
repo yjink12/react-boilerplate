@@ -15,8 +15,7 @@ import ButtonComponent from "./ButtonComponent";
 import { MockCheckupList } from "../../utils/mockData";
 import FilterCheckboxComponent from "./FilterCheckboxComponent";
 import clsx from "clsx";
-import CalendarComponent from "./CalendarComponent";
-import { CloseOutlined } from "@ant-design/icons";
+import CalendarComponent from "../calendar/CalendarComponent";
 
 const DrawerComponent = () => {
   const { setIsOpenDrawer } = useTestStore((state) => state);
@@ -49,7 +48,7 @@ const DrawerComponent = () => {
   }, [drawerType]);
 
   return (
-    <Drawer open={isOpenDrawer}>
+    <Drawer open={isOpenDrawer} onOpenChange={setIsOpenDrawer}>
       <DrawerContent
         className={clsx("", {
           [`h-full rounded-none`]: drawerType.includes("calendar"),
@@ -57,7 +56,9 @@ const DrawerComponent = () => {
       >
         <DrawerClose asChild>
           <div className="flex flex-row justify-end mr-7 mt-1 cursor-pointer">
-            <CloseOutlined
+            <img
+              src="/images/common/close.png"
+              alt="drawer"
               className="w-4 h-4"
               onClick={() => setIsOpenDrawer(false)}
             />
@@ -72,7 +73,7 @@ const DrawerComponent = () => {
               {drawerData?.description}
             </DrawerDescription>
           </DrawerHeader>
-          <div className="px-6 py-3">
+          <div className="px-4 py-3">
             {drawerType.includes("calendar") && <CalendarComponent />}
             {drawerType === "button" && <ButtonComponent />}
           </div>
