@@ -1,8 +1,9 @@
 import { useLocation } from "react-router-dom";
 import "./App.css";
-import DrawerComponent from "./components/test/DrawerComponent";
 import Header from "./layout/Header";
 import Router from "./router";
+import ModalComponent from "./components/modal/ModalComponent";
+import DrawerComponent from "./components/test/DrawerComponent";
 
 function App() {
   const currentPath = useLocation();
@@ -17,8 +18,9 @@ function App() {
           <Header pathName={currentPath.pathname} />
         )}
         <Router />
+        <ModalComponent />
       </div>
-      <DrawerComponent />
+      {/* <DrawerComponent /> */}
     </div>
   );
 }

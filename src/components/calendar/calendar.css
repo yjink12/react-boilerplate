@@ -1,6 +1,8 @@
 .react-calendar {
     /* background-color: #171717; */
     border: none;
+    /* padding-top: 20px; */
+    padding-bottom: 20px;
 }
 /* 년-월 */
 .react-calendar__navigation__label > span {

@@ -38,12 +38,16 @@ const DrawerComponent = () => {
       key: "button",
       title: "지역선택",
     },
+    {
+      key: "calendar",
+      title: "날짜선택",
+    },
   ];
 
   useEffect(() => {
-    const selectedDrawerData = drawerDataList.filter(
-      (data) => data.key === drawerType
-    );
+    const selectedDrawerData = drawerDataList.filter((data) => {
+      return drawerType.includes(data.key);
+    });
     setDrawerData(selectedDrawerData[0]);
   }, [drawerType]);
 
@@ -54,7 +58,7 @@ const DrawerComponent = () => {
           [`h-full rounded-none`]: drawerType.includes("calendar"),
         })}
       >
-        <DrawerClose asChild>
+        <DrawerClose asChild className="pb-1">
           <div className="flex flex-row justify-end mr-7 mt-1 cursor-pointer">
             <img
               src="/images/common/close.png"
@@ -64,34 +68,34 @@ const DrawerComponent = () => {
             />
           </div>
         </DrawerClose>
-        <div className="mx-auto w-full max-w-sm pb-3">
-          <DrawerHeader className="flex flex-col items-start">
-            <DrawerTitle>{drawerData?.title}</DrawerTitle>
-            <DrawerDescription
-              hidden={drawerData?.description !== undefined ? false : true}
-            >
-              {drawerData?.description}
-            </DrawerDescription>
-          </DrawerHeader>
-          <div className="px-4 py-3">
-            {drawerType.includes("calendar") && <CalendarComponent />}
-            {drawerType === "button" && <ButtonComponent />}
-          </div>
-          {drawerType === "checkbox" && (
-            <ScrollArea className="h-80 w-full rounded-md border-none px-5 pb-3">
-              <FilterCheckboxComponent
-                cols={2}
-                type={"none"}
-                data={MockCheckupList}
-              />
-            </ScrollArea>
-          )}
-          <DrawerFooter>
-            <Button size={"lg"} onClick={() => setIsOpenDrawer(false)}>
-              확인
-            </Button>
-          </DrawerFooter>
-        </div>
+        <DrawerHeader className="flex flex-col items-start">
+          <DrawerTitle>{drawerData?.title}</DrawerTitle>
+          <DrawerDescription
+            hidden={drawerData?.description !== undefined ? false : true}
+          >
+            {drawerData?.description}
+          </DrawerDescription>
+        </DrawerHeader>
+        {/* {drawerType.includes("calendar") && (
+          <ScrollArea className="h-5/6 w-full rounded-md border-none">
+            <CalendarComponent />
+          </ScrollArea>
+        )}
+        {drawerType === "button" && <ButtonComponent />} */}
+        {drawerType === "checkbox" && (
+          <ScrollArea className="h-80 w-full rounded-md border-none px-5 pb-3">
+            <FilterCheckboxComponent
+              cols={2}
+              type={"none"}
+              data={MockCheckupList}
+            />
+          </ScrollArea>
+        )}
+        <DrawerFooter>
+          <Button size={"lg"} onClick={() => setIsOpenDrawer(false)}>
+            선택 완료
+          </Button>
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

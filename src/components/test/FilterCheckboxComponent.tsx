@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { Checkbox } from "../ui";
+import { Checkbox, ScrollArea } from "../ui";
 import uuid from "react-uuid";
 import { useTestStore } from "../../store/useTestStore";
 import { cn } from "../../utils/cn";
 
-interface CheckboxProps {
-  type: string; // all(전체 선택) / none(초기화)
+export interface CheckboxProps {
+  type?: string; // all(전체 선택) / none(초기화)
   data: {
     id: number;
     label: string;
@@ -13,7 +13,7 @@ interface CheckboxProps {
     required?: boolean;
     disabled?: boolean;
   }[];
-  cols: number;
+  cols?: number;
 }
 
 const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
@@ -119,7 +119,7 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   }, []);
 
   return (
-    <>
+    <ScrollArea className="h-80 w-full rounded-md border-none px-5 pb-3">
       {type === "all" && (
         <div key={1} className="items-top flex space-x-2 mb-5">
           <Checkbox
@@ -188,7 +188,7 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
           <div key={list}>{list}</div>
         ))}
       </div>
-    </>
+    </ScrollArea>
   );
 };
 export default FilterCheckboxComponent;

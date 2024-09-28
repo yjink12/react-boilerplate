@@ -4,7 +4,16 @@ import { MockLocationList } from "../../utils/mockData";
 import { Button } from "../ui";
 import uuid from "react-uuid";
 
-const ButtonComponent = () => {
+export interface ButtonProps {
+  data: {
+    id: number;
+    label: string;
+  }[];
+}
+
+const ButtonComponent = ({ data }: ButtonProps) => {
+  // button 리스트
+  const [list, setList] = useState(data);
   const { filterData, setFilterData } = useTestStore((state) => state);
   const [locationId, setLocationId] = useState<number>();
 
@@ -12,12 +21,10 @@ const ButtonComponent = () => {
     console.log("data 확인", data);
 
     const newFilterData = filterData.map((filter) => {
-      console.log("filterData 확인", filter);
       return filter.key === "location"
         ? { ...filter, value: [data.id], label: data.label }
         : filter;
     });
-    console.log("newFilterDtat", newFilterData);
     setFilterData(newFilterData);
     setLocationId(data.id);
   };
@@ -31,8 +38,8 @@ const ButtonComponent = () => {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 gap-4 pb-16">
-      {MockLocationList.map((location, index) => (
+    <div className="grid grid-cols-2 gap-4 pb-16 px-5">
+      {list.map((location, index) => (
         <Button
           className="rounded-lg shadow-md"
           variant={locationId === location.id ? "default" : "outline"}

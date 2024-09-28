@@ -16,6 +16,7 @@ import FormComponent from "../../components/test/FormComponent";
 import {
   MockCheckupList,
   MockDsseList,
+  MockLocationList,
   MockReserveUserInfo,
   MockReserveUserInfoLabel,
   MockTermsList,
@@ -25,6 +26,16 @@ import {
 import StepsComponent from "../../components/StepsComponent";
 import uuid from "react-uuid";
 import { useNavigate } from "react-router-dom";
+import { useModal } from "../../hook/useModal";
+import CalendarComponent from "../../components/calendar/CalendarComponent";
+import FilterCheckboxComponent, {
+  CheckboxProps,
+} from "../../components/test/FilterCheckboxComponent";
+import ButtonComponent, {
+  ButtonProps,
+} from "../../components/test/ButtonComponent";
+import DialogComponent from "../../components/modal/dialog/DialogComponent";
+import { useModalStore } from "../../store/useModalStore";
 
 const TestPage = () => {
   const navigate = useNavigate();
@@ -54,6 +65,44 @@ const TestPage = () => {
       return `${data.label} ${count}`;
     } else {
       return data.label;
+    }
+  };
+
+  // filter button click event
+  const onClickFilterButton = (data: any) => {
+    console.log("filter button click", data);
+
+    let filterModalData = null;
+    switch (data.key) {
+      case "location":
+        filterModalData = {
+          Component: ButtonComponent,
+          componentProps: {
+            data: MockLocationList as ButtonProps["data"],
+          },
+        };
+        break;
+      case "checkup":
+        filterModalData = {
+          Component: FilterCheckboxComponent,
+          componentProps: {
+            data: MockCheckupList as CheckboxProps["data"],
+            type: "none",
+            cols: 2,
+          },
+        };
+        break;
+      default:
+        break;
+    }
+
+    if (filterModalData !== null) {
+      open(
+        "bottomPopup",
+        { title: data.label, compType: data.type },
+        filterModalData.Component,
+        filterModalData.componentProps
+      );
     }
   };
 
@@ -147,6 +196,19 @@ const TestPage = () => {
 
   // checkbox
 
+  const { open } = useModal();
+  const [reserveDate, setReserveDate] = useState<string>("");
+  const [sndReserveDate, setSndReserveDate] = useState<string>("");
+
+  const onClickReserveDateConfirm = () => {
+    alert("예약일 선택 완료");
+  };
+
+  const onClickCheckupConfirm = () => {
+    alert("선택 완료 test");
+    // console.log("test");
+  };
+
   return (
     <div>
       <Menubar>
@@ -224,8 +286,22 @@ const TestPage = () => {
         {selectMenu === "drawer" && (
           <Button
             onClick={() => {
-              setIsOpenDrawer(true);
-              setDrawerType("checkbox");
+              // setIsOpen(true);
+              open(
+                "bottomPopup",
+                {
+                  compType: "checkbox",
+                  title: "희망검사 선택",
+                  description: "희망검사를 선택해주세요.",
+                  onClickConfirm: onClickCheckupConfirm,
+                },
+                FilterCheckboxComponent,
+                {
+                  data: MockCheckupList,
+                  type: "none",
+                  cols: 2,
+                }
+              );
             }}
           >
             OPEN Drawer
@@ -277,24 +353,46 @@ const TestPage = () => {
           <div className="flex flex-col gap-4">
             <div className="font-semibold text-left">[1차 예약일] </div>
             <div className="flex flex-row gap-2">
-              <Input placeholder="날짜선택" />
+              <Input placeholder="날짜선택" value={reserveDate} readOnly />
               <Button
-                onClick={() => {
-                  setIsOpenDrawer(true);
-                  setDrawerType("calendar_first");
-                }}
+                onClick={() =>
+                  open(
+                    "bottomPopup",
+                    {
+                      compType: "calendar",
+                      title: "날짜선택",
+                      onClickConfirm: onClickReserveDateConfirm,
+                    },
+                    CalendarComponent,
+                    {
+                      reserveDate: reserveDate,
+                      setReserveDate: setReserveDate,
+                    }
+                  )
+                }
               >
                 Open Calendar
               </Button>
             </div>
             <div className="font-semibold text-left">[2차 예약일] </div>
             <div className="flex flex-row gap-2">
-              <Input placeholder="날짜선택" />
+              <Input placeholder="날짜선택" value={sndReserveDate} readOnly />
               <Button
-                onClick={() => {
-                  setIsOpenDrawer(true);
-                  setDrawerType("calendar_second");
-                }}
+                onClick={() =>
+                  open(
+                    "bottomPopup",
+                    {
+                      compType: "calendar",
+                      title: "날짜선택",
+                      onClickConfirm: onClickReserveDateConfirm,
+                    },
+                    CalendarComponent,
+                    {
+                      reserveDate: sndReserveDate,
+                      setReserveDate: setSndReserveDate,
+                    }
+                  )
+                }
               >
                 Open Calendar
               </Button>
@@ -309,10 +407,7 @@ const TestPage = () => {
                   key={uuid()}
                   variant={"outline"}
                   className="rounded-3xl mr-2"
-                  onClick={() => {
-                    setIsOpenDrawer(true);
-                    setDrawerType(data.type);
-                  }}
+                  onClick={() => onClickFilterButton(data)}
                 >
                   {handleButtonFilterLabel(data)}
                 </Button>
@@ -330,7 +425,7 @@ const TestPage = () => {
                 <div key={uuid()}>
                   {data.label}
                   {data.value.map((value, index) => {
-                    return <div>{value}</div>;
+                    return <div key={uuid()}>{value}</div>;
                   })}
                 </div>
               ))}

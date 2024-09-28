@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Checkbox } from "./ui";
+import { Checkbox, ScrollArea } from "./ui";
 import uuid from "react-uuid";
 import { cn } from "../utils/cn";
 

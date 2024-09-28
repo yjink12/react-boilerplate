@@ -9,11 +9,11 @@ import {
   DialogTrigger,
   Input,
   Label,
-} from "../ui";
+} from "../../ui";
 
 const DialogComponent = () => {
   return (
-    <Dialog>
+    <Dialog open>
       <DialogTrigger asChild>
         <Button variant="outline">Edit Profile</Button>
       </DialogTrigger>
