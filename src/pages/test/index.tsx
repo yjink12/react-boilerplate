@@ -34,8 +34,9 @@ import FilterCheckboxComponent, {
 import ButtonComponent, {
   ButtonProps,
 } from "../../components/test/ButtonComponent";
-import DialogComponent from "../../components/modal/dialog/DialogComponent";
+import DialogComponent from "../../components/modal/DialogComponent";
 import { useModalStore } from "../../store/useModalStore";
+import { AlertMessage } from "../../components/modal/alertMessage";
 
 const TestPage = () => {
   const navigate = useNavigate();
@@ -99,7 +100,7 @@ const TestPage = () => {
     if (filterModalData !== null) {
       open(
         "bottomPopup",
-        { title: data.label, compType: data.type },
+        { title: data.label, compType: data.type, confirmLabel: "선택완료" },
         filterModalData.Component,
         filterModalData.componentProps
       );
@@ -209,6 +210,30 @@ const TestPage = () => {
     // console.log("test");
   };
 
+  // dialog
+  const onClickDialog = (key: string, type: string) => {
+    const messageData = AlertMessage.filter(
+      (message) => message.type === type && message.key === key
+    );
+    console.log("messageData", messageData);
+
+    open(
+      "dialog",
+      {
+        type: messageData[0].type,
+        title: messageData[0].title,
+        // description: "설명",
+        content: messageData[0].content,
+        confirmLabel: messageData[0].confirmLabel,
+        onClickConfirm: () => {
+          alert("확인");
+        },
+      },
+      DialogComponent,
+      {}
+    );
+  };
+
   return (
     <div>
       <Menubar>
@@ -267,6 +292,11 @@ const TestPage = () => {
             Checkup
           </MenubarTrigger>
         </MenubarMenu>
+        <MenubarMenu key={"dialog"}>
+          <MenubarTrigger onClick={() => onClickMenu("dialog")}>
+            Dialog
+          </MenubarTrigger>
+        </MenubarMenu>
       </Menubar>
       <div className="mt-20 pt-6 pl-7 pr-7">
         {selectMenu === "card" && (
@@ -286,13 +316,13 @@ const TestPage = () => {
         {selectMenu === "drawer" && (
           <Button
             onClick={() => {
-              // setIsOpen(true);
               open(
                 "bottomPopup",
                 {
                   compType: "checkbox",
                   title: "희망검사 선택",
                   description: "희망검사를 선택해주세요.",
+                  confirmLabel: "선택완료",
                   onClickConfirm: onClickCheckupConfirm,
                 },
                 FilterCheckboxComponent,
@@ -361,6 +391,7 @@ const TestPage = () => {
                     {
                       compType: "calendar",
                       title: "날짜선택",
+                      confirmLabel: "선택완료",
                       onClickConfirm: onClickReserveDateConfirm,
                     },
                     CalendarComponent,
@@ -384,6 +415,7 @@ const TestPage = () => {
                     {
                       compType: "calendar",
                       title: "날짜선택",
+                      confirmLabel: "선택완료",
                       onClickConfirm: onClickReserveDateConfirm,
                     },
                     CalendarComponent,
@@ -468,6 +500,20 @@ const TestPage = () => {
           <Button onClick={() => navigate("/test/checkup")}>
             문진표 작성 페이지로 이동
           </Button>
+        )}
+        {selectMenu === "dialog" && (
+          <>
+            <div className="flex flex-col gap-4">
+              <div className="font-semibold text-left">예약하기 (성공) </div>
+              <Button onClick={() => onClickDialog("reserve", "success")}>
+                예약 성공
+              </Button>
+              <div className="font-semibold text-left">예약하기 (실패) </div>
+              <Button onClick={() => onClickDialog("reserve", "error")}>
+                예약 실패
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </div>
