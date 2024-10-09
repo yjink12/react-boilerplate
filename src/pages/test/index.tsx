@@ -287,9 +287,9 @@ const TestPage = () => {
             Skeleton
           </MenubarTrigger>
         </MenubarMenu>
-        <MenubarMenu key={"checkup"}>
-          <MenubarTrigger onClick={() => onClickMenu("checkup")}>
-            Checkup
+        <MenubarMenu key={"reserve"}>
+          <MenubarTrigger onClick={() => onClickMenu("reserve")}>
+            Reserve
           </MenubarTrigger>
         </MenubarMenu>
         <MenubarMenu key={"dialog"}>
@@ -496,9 +496,9 @@ const TestPage = () => {
             </div>
           </div>
         )}
-        {selectMenu === "checkup" && (
-          <Button onClick={() => navigate("/test/checkup")}>
-            문진표 작성 페이지로 이동
+        {selectMenu === "reserve" && (
+          <Button onClick={() => navigate("/test/reserve")}>
+            건강검진 예약
           </Button>
         )}
         {selectMenu === "dialog" && (

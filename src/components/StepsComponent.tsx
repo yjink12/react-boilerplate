@@ -12,7 +12,6 @@ const StepsComponent = ({ stage, current }: StepsProps) => {
 
   return (
     <div>
-      <h1 className="pb-7">Steps Component</h1>
       <div className={`flex flex-row justify-between`}>
         {stages.map((stage, index) => (
           <div className={`flex flex-row`} key={uuid()}>

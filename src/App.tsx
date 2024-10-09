@@ -9,7 +9,7 @@ function App() {
   const currentPath = useLocation();
   console.log("currentPath", currentPath.pathname);
 
-  const backspacePath = ["/test", "/test/checkup"];
+  const backspacePath = ["/test", "/test/reserve"];
 
   return (
     <div className="App">

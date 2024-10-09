@@ -12,8 +12,8 @@ const pageTitleList = [
     title: "테스트 페이지",
   },
   {
-    path: "/test/checkup",
-    title: "문진 페이지",
+    path: "/test/reserve",
+    title: "건강검진 예약",
   },
 ];
 
@@ -21,7 +21,7 @@ const Header = ({ pathName }: HeaderProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-cols-2 text-left px-6 py-5">
+    <div className="flex flex-cols-2 text-left px-6 pb-6 pt-9">
       <div className="col-span-1 pr-4">
         <TooltipComponent variant="round" theme="black">
           <LeftOutlined
