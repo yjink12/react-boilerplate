@@ -7,9 +7,9 @@ import { cn } from "../../utils/cn";
 export interface CheckboxProps {
   type?: string; // all(전체 선택) / none(초기화)
   data: {
-    id: number;
-    label: string;
-    checked: boolean;
+    key: number;
+    value: string;
+    checked?: boolean;
     required?: boolean;
     disabled?: boolean;
   }[];
@@ -51,7 +51,7 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
     // 리스트 update
     setList(
       list.map((item) =>
-        item.id === id ? { ...item, checked: checked } : item
+        item.key === id ? { ...item, checked: checked } : item
       )
     );
   };
@@ -60,7 +60,7 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   const onClickAllCheckbox = (checked: any) => {
     console.log("????", checked);
     if (checked) {
-      setSelectList(list.map((item) => item.id));
+      setSelectList(list.map((item) => item.key));
       setList(list.map((item) => ({ ...item, checked: true })));
     } else {
       // 초기화
@@ -110,7 +110,9 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
         } else {
           setList(
             list.map((item) =>
-              filter.value.includes(item.id) ? { ...item, checked: true } : item
+              filter.value.includes(item.key)
+                ? { ...item, checked: true }
+                : item
             )
           );
         }
@@ -159,12 +161,12 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
         {list.map((item) => {
           const id = uuid();
           return (
-            <div key={item.id} className="items-top flex space-x-2">
+            <div key={item.key} className="items-top flex space-x-2">
               <Checkbox
                 id={id}
                 variant={type === "none" ? "default" : "round"}
                 checked={item.checked}
-                onClick={() => onClickCheckbox(item.id, !item.checked)}
+                onClick={() => onClickCheckbox(item.key, !item.checked)}
                 disabled={checkedNone ? item.disabled : false}
               />
               <div className="grid gap-1.5 leading-none">
@@ -172,10 +174,10 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
                   htmlFor={id}
                   className={cn([
                     "text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer",
-                    checkedNone && item.id !== 0 ? "text-gray-500" : "",
+                    checkedNone && item.key !== 0 ? "text-gray-500" : "",
                   ])}
                 >
-                  {item.label}
+                  {item.value}
                 </label>
               </div>
             </div>

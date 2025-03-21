@@ -1,3 +1,4 @@
+import { UseFormReturn } from "react-hook-form";
 import {
   Button,
   FormControl,
@@ -10,11 +11,18 @@ import {
 import { cn } from "../../../../utils/cn";
 
 interface FormComponentProps {
-  form: any;
-  onSubmit: (data: any) => void;
+  form: UseFormReturn<
+    {
+      email: string;
+      address: string;
+    },
+    any,
+    undefined
+  >;
 }
 
-const FormComponent = ({ form, onSubmit }: FormComponentProps) => {
+const FormComponent = ({ form }: FormComponentProps) => {
+  /** validation invalid style */
   const invalidStyle = (fieldState: any) => {
     return [
       !fieldState.error && !fieldState.invalid && fieldState.isDirty
@@ -27,6 +35,9 @@ const FormComponent = ({ form, onSubmit }: FormComponentProps) => {
 
   return (
     <>
+      <div>
+        <h1 className="text-xl font-bold">회원정보</h1>
+      </div>
       <FormField
         control={form.control}
         name="email"

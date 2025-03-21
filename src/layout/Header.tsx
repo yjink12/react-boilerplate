@@ -10,10 +10,12 @@ const pageTitleList = [
   {
     path: "/test",
     title: "테스트 페이지",
+    backPage: "/",
   },
   {
     path: "/test/reserve",
     title: "건강검진 예약",
+    backPage: "/test",
   },
 ];
 
@@ -26,7 +28,12 @@ const Header = ({ pathName }: HeaderProps) => {
         <TooltipComponent variant="round" theme="black">
           <LeftOutlined
             className="text-2xl mt-0.5"
-            onClick={() => navigate(-1)}
+            onClick={() =>
+              navigate(
+                pageTitleList.find((page) => page.path === pathName)
+                  ?.backPage ?? "/"
+              )
+            }
           />
         </TooltipComponent>
       </div>

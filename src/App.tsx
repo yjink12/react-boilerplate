@@ -7,7 +7,7 @@ import DrawerComponent from "./components/test/DrawerComponent";
 
 function App() {
   const currentPath = useLocation();
-  console.log("currentPath", currentPath.pathname);
+  // console.log("currentPath", currentPath.pathname);
 
   const backspacePath = ["/test", "/test/reserve"];
 

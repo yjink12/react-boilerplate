@@ -57,7 +57,7 @@ const BottomPopupComponent = ({
         <DrawerFooter>
           <Button
             className="rounded-xl"
-            size={"lg"}
+            size={"xl2"}
             onClick={() => {
               if (onClickConfirm) {
                 onClickConfirm();

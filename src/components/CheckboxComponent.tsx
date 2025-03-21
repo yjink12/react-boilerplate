@@ -6,16 +6,17 @@ import { cn } from "../utils/cn";
 interface CheckboxProps {
   type: string; // all(전체 선택) / none(초기화)
   data: {
-    id: number;
-    label: string;
-    checked: boolean;
+    key: number;
+    value: string;
+    checked?: boolean;
     required?: boolean;
     disabled?: boolean;
   }[];
   cols: number;
+  includeNA?: boolean;
 }
 
-const CheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
+const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
   // checkbox 리스트
   const [list, setList] = useState(data);
   // 선택한 checkbox 리스트
@@ -26,17 +27,17 @@ const CheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   const [checkedNone, setCheckedNone] = useState(false);
 
   // 개별 선택
-  const onClickCheckbox = (id: number, checked: boolean) => {
+  const onClickCheckbox = (key: number, checked: boolean) => {
     if (checked) {
-      setSelectList([...selectList, id]);
+      setSelectList([...selectList, key]);
     } else {
-      setSelectList(selectList.filter((item) => item !== id));
+      setSelectList(selectList.filter((item) => item !== key));
     }
 
     // 리스트 update
     setList(
       list.map((item) =>
-        item.id === id ? { ...item, checked: checked } : item
+        item.key === key ? { ...item, checked: checked } : item
       )
     );
   };
@@ -45,7 +46,7 @@ const CheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   const onClickAllCheckbox = (checked: any) => {
     console.log("????", checked);
     if (checked) {
-      setSelectList(list.map((item) => item.id));
+      setSelectList(list.map((item) => item.key));
       setList(list.map((item) => ({ ...item, checked: true })));
     } else {
       // 초기화
@@ -72,7 +73,7 @@ const CheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
       }
       setList(
         list.map((item) =>
-          item.id === 0
+          item.key === 0
             ? { ...item, checked: true, disabled: false }
             : { ...item, checked: false, disabled: true }
         )
@@ -87,6 +88,15 @@ const CheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
       setCheckedAll(false);
     }
   }, [selectList]);
+
+  useEffect(() => {
+    if (includeNA) {
+      setList([
+        { key: 0, value: "해당없음", checked: false, disabled: false },
+        ...data,
+      ]);
+    }
+  }, [data]);
 
   return (
     <>
@@ -128,40 +138,40 @@ const CheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
         {list.map((item) => {
           const id = uuid();
           return (
-            <div key={item.id} className="items-top flex space-x-2">
+            <div key={item.key} className="items-top flex space-x-2">
               <Checkbox
                 id={id}
                 variant={type === "none" ? "default" : "round"}
                 checked={item.checked}
                 onCheckedChange={(checked) => {
-                  if (item.id === 0) {
+                  if (item.key === 0) {
                     onClickResetCheckbox(checked);
                   }
                 }}
-                onClick={() => onClickCheckbox(item.id, !item.checked)}
-                disabled={checkedNone && item.id !== 0 ? item.disabled : false}
+                onClick={() => onClickCheckbox(item.key, !item.checked)}
+                disabled={checkedNone && item.key !== 0 ? item.disabled : false}
               />
               <div className="grid gap-1.5 leading-none">
                 <label
                   htmlFor={id}
                   className={cn([
                     "text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer",
-                    checkedNone && item.id !== 0 ? "text-gray-500" : "",
+                    checkedNone && item.key !== 0 ? "text-gray-500" : "",
                   ])}
                 >
-                  {item.label}
+                  {item.value}
                 </label>
               </div>
             </div>
           );
         })}
       </div>
-      <div>
+      {/* <div>
         <div className="font-medium">선택한 id</div>
         {selectList.map((list) => (
           <div key={list}>{list}</div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };

@@ -35,7 +35,6 @@ import ButtonComponent, {
   ButtonProps,
 } from "../../components/test/ButtonComponent";
 import DialogComponent from "../../components/modal/DialogComponent";
-import { useModalStore } from "../../store/useModalStore";
 import { AlertMessage } from "../../components/modal/alertMessage";
 
 const TestPage = () => {
@@ -173,7 +172,7 @@ const TestPage = () => {
 
   // 질환 mock data
   const [dsseList, setDsseList] = useState<
-    { id: number; label: string; checked: boolean; disabled: boolean }[]
+    { key: number; value: string; checked: boolean; disabled: boolean }[]
   >([]);
 
   useEffect(() => {
@@ -184,8 +183,8 @@ const TestPage = () => {
     let newDsseList = [];
     newDsseList.push(
       {
-        id: 0,
-        label: "해당 사항 없음",
+        key: 0,
+        value: "해당 사항 없음",
         checked: false,
         disabled: false,
       },
@@ -356,7 +355,6 @@ const TestPage = () => {
         )}
         {selectMenu === "radio" && <RadioComponent data={MockCheckupList} />}
         {selectMenu === "form" && <FormComponent />}
-        {/* {selectMenu === "select" && <>select</>} */}
         {selectMenu === "steps" && (
           <div>
             <StepsComponent stage={stage} current={currentStage} />
