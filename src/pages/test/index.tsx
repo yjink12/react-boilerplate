@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import CardComponent from "../../components/CardComponent";
-import CheckboxComponent from "../../components/CheckboxComponent";
+import { useEffect, useState } from 'react';
+import CardComponent from '../../components/CardComponent';
+import CheckboxComponent from '../../components/CheckboxComponent';
 import {
   Button,
   Input,
@@ -9,10 +9,10 @@ import {
   MenubarTrigger,
   Separator,
   Skeleton,
-} from "../../components/ui";
-import { useTestStore } from "../../store/useTestStore";
-import RadioComponent from "../../components/RadioComponent";
-import FormComponent from "../../components/test/FormComponent";
+} from '../../components/ui';
+import { useTestStore } from '../../store/useTestStore';
+import RadioComponent from '../../components/RadioComponent';
+import FormComponent from '../../components/test/FormComponent';
 import {
   MockCheckupList,
   MockDsseList,
@@ -22,30 +22,82 @@ import {
   MockTermsList,
   MockUserInfo,
   MockUserInfoLabel,
-} from "../../utils/mockData";
-import StepsComponent from "../../components/StepsComponent";
-import uuid from "react-uuid";
-import { useNavigate } from "react-router-dom";
-import { useModal } from "../../hook/useModal";
-import CalendarComponent from "../../components/calendar/CalendarComponent";
+} from '../../utils/mockData';
+import StepsComponent from '../../components/StepsComponent';
+import uuid from 'react-uuid';
+import { useNavigate } from 'react-router-dom';
+import { useModal } from '../../hook/useModal';
+import CalendarComponent from '../../components/calendar/CalendarComponent';
 import FilterCheckboxComponent, {
   CheckboxProps,
-} from "../../components/test/FilterCheckboxComponent";
+} from '../../components/test/FilterCheckboxComponent';
 import ButtonComponent, {
   ButtonProps,
-} from "../../components/test/ButtonComponent";
-import DialogComponent from "../../components/modal/DialogComponent";
-import { AlertMessage } from "../../components/modal/alertMessage";
+} from '../../components/test/ButtonComponent';
+import DialogComponent from '../../components/modal/DialogComponent';
+import { AlertMessage } from '../../components/modal/alertMessage';
 
-const TestPage = () => {
+interface MenuBar {
+  key: string;
+  title: string;
+}
+
+const menuBarList: MenuBar[] = [
+  {
+    key: 'card',
+    title: 'Card',
+  },
+  {
+    key: 'drawer',
+    title: 'Drawer',
+  },
+  {
+    key: 'checkbox',
+    title: 'Checkbox',
+  },
+  {
+    key: 'radio',
+    title: 'Radio',
+  },
+  {
+    key: 'form',
+    title: 'Form',
+  },
+  {
+    key: 'steps',
+    title: 'Steps',
+  },
+  {
+    key: 'calendar',
+    title: 'Calendar',
+  },
+  {
+    key: 'filter',
+    title: 'Filter',
+  },
+  {
+    key: 'skeleton',
+    title: 'Skeleton',
+  },
+  {
+    key: 'reserve',
+    title: 'Reserve',
+  },
+  {
+    key: 'dialog',
+    title: 'Dialog',
+  },
+];
+
+const TestPage = (): React.ReactElement => {
   const navigate = useNavigate();
-  const [selectMenu, setSelectMenu] = useState("");
+  const [selectMenu, setSelectMenu] = useState('');
   const { filterData, setIsOpenDrawer, setDrawerType, resetFilterData } =
     useTestStore((state) => state);
 
   // button filter
   const onClickResetFilter = () => {
-    console.log("filter ?>??");
+    console.log('filter ?>??');
     // 초기화
     resetFilterData();
   };
@@ -57,11 +109,11 @@ const TestPage = () => {
     value: number[];
     type: string;
   }) => {
-    if (data.key === "checkup") {
+    if (data.key === 'checkup') {
       const count =
         data.value.length > 0 && !data.value.includes(0)
           ? data.value.length
-          : "";
+          : '';
       return `${data.label} ${count}`;
     } else {
       return data.label;
@@ -70,24 +122,24 @@ const TestPage = () => {
 
   // filter button click event
   const onClickFilterButton = (data: any) => {
-    console.log("filter button click", data);
+    console.log('filter button click', data);
 
     let filterModalData = null;
     switch (data.key) {
-      case "location":
+      case 'location':
         filterModalData = {
           Component: ButtonComponent,
           componentProps: {
-            data: MockLocationList as ButtonProps["data"],
+            data: MockLocationList as ButtonProps['data'],
           },
         };
         break;
-      case "checkup":
+      case 'checkup':
         filterModalData = {
           Component: FilterCheckboxComponent,
           componentProps: {
-            data: MockCheckupList as CheckboxProps["data"],
-            type: "none",
+            data: MockCheckupList as CheckboxProps['data'],
+            type: 'none',
             cols: 2,
           },
         };
@@ -98,8 +150,8 @@ const TestPage = () => {
 
     if (filterModalData !== null) {
       open(
-        "bottomPopup",
-        { title: data.label, compType: data.type, confirmLabel: "선택완료" },
+        'bottomPopup',
+        { title: data.label, compType: data.type, confirmLabel: '선택완료' },
         filterModalData.Component,
         filterModalData.componentProps
       );
@@ -108,7 +160,6 @@ const TestPage = () => {
 
   const onClickMenu = (menu: string) => {
     console.log(menu);
-    console.log("???????");
     setSelectMenu(menu);
   };
 
@@ -124,11 +175,11 @@ const TestPage = () => {
     setCurrentStage(currentStage - 1);
   };
   const done = () => {
-    alert("예약 완료");
+    alert('예약 완료');
   };
 
   // 예약자 정보 (Card)
-  const reserveUserInfoTitle = "예약자 정보";
+  const reserveUserInfoTitle = '예약자 정보';
   const [reserveUserInfo, setReserveUserInfo] = useState<any[]>([]);
   const [userInfo, setUserInfo] = useState<any[]>([]);
 
@@ -179,33 +230,33 @@ const TestPage = () => {
     // (Card)
     handleUserInfo();
     handleReserveUserInfo();
-    setSelectMenu("card");
+    setSelectMenu('card');
     let newDsseList = [];
     newDsseList.push(
       {
         key: 0,
-        value: "해당 사항 없음",
+        value: '해당 사항 없음',
         checked: false,
         disabled: false,
       },
       ...MockDsseList
     );
-    console.log("newDsseList", newDsseList);
+    console.log('newDsseList', newDsseList);
     setDsseList(newDsseList);
   }, []);
 
   // checkbox
 
   const { open } = useModal();
-  const [reserveDate, setReserveDate] = useState<string>("");
-  const [sndReserveDate, setSndReserveDate] = useState<string>("");
+  const [reserveDate, setReserveDate] = useState<string>('');
+  const [sndReserveDate, setSndReserveDate] = useState<string>('');
 
   const onClickReserveDateConfirm = () => {
-    alert("예약일 선택 완료");
+    alert('예약일 선택 완료');
   };
 
   const onClickCheckupConfirm = () => {
-    alert("선택 완료 test");
+    alert('선택 완료 test');
     // console.log("test");
   };
 
@@ -214,10 +265,10 @@ const TestPage = () => {
     const messageData = AlertMessage.filter(
       (message) => message.type === type && message.key === key
     );
-    console.log("messageData", messageData);
+    console.log('messageData', messageData);
 
     open(
-      "dialog",
+      'dialog',
       {
         type: messageData[0].type,
         title: messageData[0].title,
@@ -225,7 +276,7 @@ const TestPage = () => {
         content: messageData[0].content,
         confirmLabel: messageData[0].confirmLabel,
         onClickConfirm: () => {
-          alert("확인");
+          alert('확인');
         },
       },
       DialogComponent,
@@ -236,98 +287,47 @@ const TestPage = () => {
   return (
     <div>
       <Menubar>
-        <MenubarMenu key={"card"}>
-          <MenubarTrigger onClick={() => onClickMenu("card")}>
-            Card
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"drawer"}>
-          <MenubarTrigger onClick={() => onClickMenu("drawer")}>
-            Drawer
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"checkbox"}>
-          <MenubarTrigger onClick={() => onClickMenu("checkbox")}>
-            Checkbox
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"radio"}>
-          <MenubarTrigger onClick={() => onClickMenu("radio")}>
-            Radio
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"form"}>
-          <MenubarTrigger onClick={() => onClickMenu("form")}>
-            Form
-          </MenubarTrigger>
-        </MenubarMenu>
-        {/* <MenubarMenu>
-          <MenubarTrigger onClick={() => onClickMenu("select")}>
-            Select
-          </MenubarTrigger>
-        </MenubarMenu> */}
-        <MenubarMenu key={"steps"}>
-          <MenubarTrigger onClick={() => onClickMenu("steps")}>
-            Steps
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"calendar"}>
-          <MenubarTrigger onClick={() => onClickMenu("calendar")}>
-            Calendar
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"filter"}>
-          <MenubarTrigger onClick={() => onClickMenu("filter")}>
-            Filter
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"skeleton"}>
-          <MenubarTrigger onClick={() => onClickMenu("skeleton")}>
-            Skeleton
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"reserve"}>
-          <MenubarTrigger onClick={() => onClickMenu("reserve")}>
-            Reserve
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu key={"dialog"}>
-          <MenubarTrigger onClick={() => onClickMenu("dialog")}>
-            Dialog
-          </MenubarTrigger>
-        </MenubarMenu>
+        {menuBarList.map((menu) => {
+          return (
+            <MenubarMenu key={menu.key}>
+              <MenubarTrigger onClick={() => onClickMenu(menu.key)}>
+                {menu.title}
+              </MenubarTrigger>
+            </MenubarMenu>
+          );
+        })}
       </Menubar>
-      <div className="mt-20 pt-6 pl-7 pr-7">
-        {selectMenu === "card" && (
+      <div className="mt-10 pt-6 pl-7 pr-7">
+        {selectMenu === 'card' && (
           <div className="flex flex-col">
             <div className="font-semibold mb-5">[기본 정보 Card]</div>
-            <CardComponent type={"default"} data={userInfo} />
+            <CardComponent type={'default'} data={userInfo} />
             <Separator className="my-8" />
             <div className="font-semibold mb-5">[예약자 정보 Card]</div>
             <CardComponent
-              type={"info"}
+              type={'info'}
               title={reserveUserInfoTitle}
               data={reserveUserInfo}
             />
             <Separator className="my-8" />
           </div>
         )}
-        {selectMenu === "drawer" && (
+        {selectMenu === 'drawer' && (
           <Button
             onClick={() => {
               open(
-                "bottomPopup",
+                'bottomPopup',
                 {
-                  compType: "checkbox",
-                  title: "희망검사 선택",
-                  description: "희망검사를 선택해주세요.",
-                  confirmLabel: "선택완료",
+                  compType: 'checkbox',
+                  title: '희망검사 선택',
+                  description: '희망검사를 선택해주세요.',
+                  confirmLabel: '선택완료',
                   onClickConfirm: onClickCheckupConfirm,
                 },
                 FilterCheckboxComponent,
                 {
                   data: MockCheckupList,
-                  type: "none",
+                  type: 'none',
                   cols: 2,
                 }
               );
@@ -336,26 +336,26 @@ const TestPage = () => {
             OPEN Drawer
           </Button>
         )}
-        {selectMenu === "checkbox" && (
+        {selectMenu === 'checkbox' && (
           <div className="flex flex-col">
             <div className="font-semibold mb-5">[전체 선택 Checkbox] </div>
-            <CheckboxComponent type={"all"} cols={1} data={MockTermsList} />
+            <CheckboxComponent type={'all'} cols={1} data={MockTermsList} />
             <Separator className="my-4" />
             <div className="font-semibold mb-5">
-              [초기화 checkbox - list 미포함(희망검사)]{" "}
+              [초기화 checkbox - list 미포함(희망검사)]{' '}
             </div>
-            <CheckboxComponent type={"none"} cols={2} data={MockCheckupList} />
+            <CheckboxComponent type={'none'} cols={2} data={MockCheckupList} />
             <Separator className="my-4" />
             <div className="font-semibold mb-5">
-              [초기화 checkbox - list 포함(문진)]{" "}
+              [초기화 checkbox - list 포함(문진)]{' '}
             </div>
-            <CheckboxComponent type={"default"} cols={2} data={dsseList} />
+            <CheckboxComponent type={'default'} cols={2} data={dsseList} />
             <Separator className="my-4" />
           </div>
         )}
-        {selectMenu === "radio" && <RadioComponent data={MockCheckupList} />}
-        {selectMenu === "form" && <FormComponent />}
-        {selectMenu === "steps" && (
+        {selectMenu === 'radio' && <RadioComponent data={MockCheckupList} />}
+        {selectMenu === 'form' && <FormComponent />}
+        {selectMenu === 'steps' && (
           <div>
             <StepsComponent stage={stage} current={currentStage} />
             <div className="flex flex-row justify-center">
@@ -377,7 +377,7 @@ const TestPage = () => {
             </div>
           </div>
         )}
-        {selectMenu === "calendar" && (
+        {selectMenu === 'calendar' && (
           <div className="flex flex-col gap-4">
             <div className="font-semibold text-left">[1차 예약일] </div>
             <div className="flex flex-row gap-2">
@@ -385,11 +385,11 @@ const TestPage = () => {
               <Button
                 onClick={() =>
                   open(
-                    "bottomPopup",
+                    'bottomPopup',
                     {
-                      compType: "calendar",
-                      title: "날짜선택",
-                      confirmLabel: "선택완료",
+                      compType: 'calendar',
+                      title: '날짜선택',
+                      confirmLabel: '선택완료',
                       onClickConfirm: onClickReserveDateConfirm,
                     },
                     CalendarComponent,
@@ -409,11 +409,11 @@ const TestPage = () => {
               <Button
                 onClick={() =>
                   open(
-                    "bottomPopup",
+                    'bottomPopup',
                     {
-                      compType: "calendar",
-                      title: "날짜선택",
-                      confirmLabel: "선택완료",
+                      compType: 'calendar',
+                      title: '날짜선택',
+                      confirmLabel: '선택완료',
                       onClickConfirm: onClickReserveDateConfirm,
                     },
                     CalendarComponent,
@@ -429,13 +429,13 @@ const TestPage = () => {
             </div>
           </div>
         )}
-        {selectMenu === "filter" && (
+        {selectMenu === 'filter' && (
           <>
             <div className="flex flex-row">
               {filterData.map((data, index) => (
                 <Button
                   key={uuid()}
-                  variant={"outline"}
+                  variant={'outline'}
                   className="rounded-3xl mr-2"
                   onClick={() => onClickFilterButton(data)}
                 >
@@ -462,11 +462,11 @@ const TestPage = () => {
             </div>
           </>
         )}
-        {selectMenu === "skeleton" && (
+        {selectMenu === 'skeleton' && (
           <div>
             <div className="pb-8">
               <div className="font-semibold mb-5 text-left">
-                [Round Skeleton]{" "}
+                [Round Skeleton]{' '}
               </div>
               <div className="flex items-center space-x-4">
                 <Skeleton className="h-12 w-12 rounded-full" />
@@ -474,7 +474,7 @@ const TestPage = () => {
             </div>
             <div className="pb-8">
               <div className="font-semibold mb-5 text-left">
-                [Text Skeleton]{" "}
+                [Text Skeleton]{' '}
               </div>
               <div className="flex items-center space-x-4">
                 <div className="space-y-2">
@@ -486,7 +486,7 @@ const TestPage = () => {
             </div>
             <div className="pb-8">
               <div className="font-semibold mb-5 text-left">
-                [Card Skeleton]{" "}
+                [Card Skeleton]{' '}
               </div>
               <div className="flex items-center space-x-4">
                 <Skeleton className="h-[125px] w-[250px] rounded-xl" />
@@ -494,20 +494,18 @@ const TestPage = () => {
             </div>
           </div>
         )}
-        {selectMenu === "reserve" && (
-          <Button onClick={() => navigate("/test/reserve")}>
-            건강검진 예약
-          </Button>
+        {selectMenu === 'reserve' && (
+          <Button onClick={() => navigate('/reserve')}>건강검진 예약</Button>
         )}
-        {selectMenu === "dialog" && (
+        {selectMenu === 'dialog' && (
           <>
             <div className="flex flex-col gap-4">
               <div className="font-semibold text-left">예약하기 (성공) </div>
-              <Button onClick={() => onClickDialog("reserve", "success")}>
+              <Button onClick={() => onClickDialog('reserve', 'success')}>
                 예약 성공
               </Button>
               <div className="font-semibold text-left">예약하기 (실패) </div>
-              <Button onClick={() => onClickDialog("reserve", "error")}>
+              <Button onClick={() => onClickDialog('reserve', 'error')}>
                 예약 실패
               </Button>
             </div>

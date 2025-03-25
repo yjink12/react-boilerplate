@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Checkbox, ScrollArea } from "./ui";
-import uuid from "react-uuid";
-import { cn } from "../utils/cn";
+import { useEffect, useState } from 'react';
+import { Checkbox, ScrollArea } from './ui';
+import uuid from 'react-uuid';
+import { cn } from '../utils/cn';
 
 interface CheckboxProps {
   type: string; // all(전체 선택) / none(초기화)
@@ -44,7 +44,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
 
   // 전체 선택
   const onClickAllCheckbox = (checked: any) => {
-    console.log("????", checked);
+    console.log('????', checked);
     if (checked) {
       setSelectList(list.map((item) => item.key));
       setList(list.map((item) => ({ ...item, checked: true })));
@@ -66,7 +66,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
 
   useEffect(() => {
     if (checkedNone) {
-      if (type === "default") {
+      if (type === 'default') {
         setSelectList([0]);
       } else {
         setSelectList([]);
@@ -92,7 +92,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
   useEffect(() => {
     if (includeNA) {
       setList([
-        { key: 0, value: "해당없음", checked: false, disabled: false },
+        { key: 0, value: '해당없음', checked: false, disabled: false },
         ...data,
       ]);
     }
@@ -100,11 +100,11 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
 
   return (
     <>
-      {type === "all" && (
+      {type === 'all' && (
         <div key={1} className="items-top flex space-x-2 mb-5">
           <Checkbox
             id="all"
-            variant={"round"}
+            variant={'round'}
             onCheckedChange={(checked) => onClickAllCheckbox(checked)}
             checked={checkedAll}
           />
@@ -118,7 +118,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
           </div>
         </div>
       )}
-      {type === "none" && (
+      {type === 'none' && (
         <div key={2} className="items-top flex space-x-2 mb-5">
           <Checkbox
             id="none"
@@ -141,7 +141,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
             <div key={item.key} className="items-top flex space-x-2">
               <Checkbox
                 id={id}
-                variant={type === "none" ? "default" : "round"}
+                variant={type === 'none' ? 'default' : 'round'}
                 checked={item.checked}
                 onCheckedChange={(checked) => {
                   if (item.key === 0) {
@@ -155,8 +155,8 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
                 <label
                   htmlFor={id}
                   className={cn([
-                    "text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer",
-                    checkedNone && item.key !== 0 ? "text-gray-500" : "",
+                    'text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer',
+                    checkedNone && item.key !== 0 ? 'text-gray-500' : '',
                   ])}
                 >
                   {item.value}

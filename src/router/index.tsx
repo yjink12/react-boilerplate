@@ -1,12 +1,15 @@
-import { Route, Routes } from "react-router-dom";
-import TestPage from "../pages/test";
-import TestReservePage from "../pages/test/reserve";
+import { Route, Routes } from 'react-router-dom';
+import { routes } from './routes';
 
 const Router = () => {
   return (
     <Routes>
-      <Route path="/test" element={<TestPage />} />
-      <Route path="/test/reserve" element={<TestReservePage />} />
+      {routes.map((route) => {
+        const Element = route.element;
+        return (
+          <Route key={route.path} path={route.path} element={<Element />} />
+        );
+      })}
     </Routes>
   );
 };

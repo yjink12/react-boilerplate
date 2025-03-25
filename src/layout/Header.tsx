@@ -1,45 +1,53 @@
-import { LeftOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
-import TooltipComponent from "../components/test/TooltipComponent";
+import { LeftOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+import TooltipComponent from '../components/test/TooltipComponent';
+import { useEffect, useState } from 'react';
 
 interface HeaderProps {
   pathName: string;
 }
+interface PageInfoType {
+  path: string;
+  title: string;
+  backPath?: string;
+}
 
-const pageTitleList = [
+const pageInfoList: PageInfoType[] = [
   {
-    path: "/test",
-    title: "테스트 페이지",
-    backPage: "/",
+    path: '/',
+    title: 'Component',
   },
   {
-    path: "/test/reserve",
-    title: "건강검진 예약",
-    backPage: "/test",
+    path: '/reserve',
+    title: '건강검진 예약하기',
+    backPath: '/',
   },
 ];
 
 const Header = ({ pathName }: HeaderProps) => {
   const navigate = useNavigate();
+  const [currentPageInfo, setCurrentPageInfo] = useState<PageInfoType>();
+
+  useEffect(() => {
+    const pathPageMapping = pageInfoList.find((page) => page.path === pathName);
+    setCurrentPageInfo(pathPageMapping);
+  }, [pathName]);
 
   return (
-    <div className="flex flex-cols-2 text-left px-6 pb-6 pt-9">
-      <div className="col-span-1 pr-4">
-        <TooltipComponent variant="round" theme="black">
-          <LeftOutlined
-            className="text-2xl mt-0.5"
-            onClick={() =>
-              navigate(
-                pageTitleList.find((page) => page.path === pathName)
-                  ?.backPage ?? "/"
-              )
-            }
-          />
-        </TooltipComponent>
+    <div className="flex flex-cols-2 text-left px-4 pb-6 pt-9">
+      {currentPageInfo?.backPath && (
+        <div className="col-span-1 pr-4">
+          <TooltipComponent variant="round" theme="black">
+            <LeftOutlined
+              className="text-2xl mt-0.5"
+              onClick={() => navigate(currentPageInfo.backPath || '/')}
+            />
+          </TooltipComponent>
+        </div>
+      )}
+      <div className="col-span-1 text-2xl font-bold">
+        {currentPageInfo?.title || ''}
       </div>
-      <h4 className="col-span-1 text-xl font-bold">
-        {pageTitleList.find((page) => page.path === pathName)?.title}
-      </h4>
     </div>
   );
 };
