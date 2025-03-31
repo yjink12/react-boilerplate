@@ -1,6 +1,6 @@
 import { LeftOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import TooltipComponent from '../components/test/TooltipComponent';
+import TooltipComponent from '../components/basic/TooltipComponent';
 import { useEffect, useState } from 'react';
 
 interface HeaderProps {

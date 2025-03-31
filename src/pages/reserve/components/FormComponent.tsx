@@ -1,4 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from 'react-hook-form';
 import {
   Button,
   FormControl,
@@ -7,8 +7,8 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "../../../../components/ui";
-import { cn } from "../../../../utils/cn";
+} from '../../../components/ui';
+import { cn } from '../../../utils/cn';
 
 interface FormComponentProps {
   form: UseFormReturn<
@@ -26,10 +26,10 @@ const FormComponent = ({ form }: FormComponentProps) => {
   const invalidStyle = (fieldState: any) => {
     return [
       !fieldState.error && !fieldState.invalid && fieldState.isDirty
-        ? "focus-visible:ring-green-200"
+        ? 'focus-visible:ring-green-200'
         : fieldState.error
-        ? "ring-offset-2 ring-red-200 ring-2"
-        : "",
+        ? 'ring-offset-2 ring-red-200 ring-2'
+        : '',
     ];
   };
 
@@ -42,9 +42,9 @@ const FormComponent = ({ form }: FormComponentProps) => {
         control={form.control}
         name="email"
         render={({ field, fieldState }) => (
-          <FormItem className={"space-y-3 flex flex-col"}>
+          <FormItem className={'space-y-3 flex flex-col'}>
             <FormLabel
-              className={"font-semibold text-left pl-2 pb-1 text-inherit"}
+              className={'font-semibold text-left pl-2 pb-1 text-inherit'}
             >
               이메일
             </FormLabel>

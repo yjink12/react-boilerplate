@@ -1,9 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle, Separator } from "./ui";
-import { phoneNumWithHyphen } from "../utils/helper";
-import clsx from "clsx";
+import { Card, CardContent, CardHeader, CardTitle, Separator } from '../ui';
+import { phoneNumWithHyphen } from '../../utils/helper';
+import clsx from 'clsx';
 
 interface CardProps {
-  type: "default" | "info" | undefined | null;
+  type: 'default' | 'info' | undefined | null;
   title?: string;
   data: { [key: string]: string }[];
 }
@@ -13,7 +13,7 @@ const CardComponent = ({ type, title, data }: CardProps) => {
     <div>
       <Card className="w-full">
         <CardHeader variant={type}>
-          <CardTitle variant={"info"} textSize={"md"} className="font-bold">
+          <CardTitle variant={'info'} textSize={'md'} className="font-bold">
             {title}
           </CardTitle>
         </CardHeader>
@@ -29,16 +29,16 @@ const CardComponent = ({ type, title, data }: CardProps) => {
                     `col-span-2 break-keep text-left leading-relaxed`,
                     {
                       [`text-blue-700`]: item.highlight,
-                      [`text-right`]: type === "default",
+                      [`text-right`]: type === 'default',
                     }
                   )}
                 >
-                  {item.key === "hpNo"
+                  {item.key === 'hpNo'
                     ? phoneNumWithHyphen(item.value)
                     : item.value}
                 </div>
               </div>
-              {index !== data.length - 1 && type !== "default" && <Separator />}
+              {index !== data.length - 1 && type !== 'default' && <Separator />}
             </div>
           ))}
         </CardContent>

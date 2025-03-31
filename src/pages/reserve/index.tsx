@@ -1,27 +1,27 @@
-import { useEffect, useState } from "react";
-import StepsComponent from "../../../components/StepsComponent";
-import { Button, Form } from "../../../components/ui";
-import HealthQuestionnaireComponent from "./components/HealthQuestionnaireComponent";
-import FormComponent from "./components/FormComponent";
-import { useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import ReserveFormComponent from "./components/ReserveFormComponent";
+import { useEffect, useState } from 'react';
+import StepsComponent from '../../components/basic/StepsComponent';
+import { Button, Form } from '../../components/ui';
+import HealthQuestionnaireComponent from './components/HealthQuestionnaireComponent';
+import FormComponent from './components/FormComponent';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import ReserveFormComponent from './components/ReserveFormComponent';
 
 /** zod user info form schema (rules) */
 export const userInfoFormSchema = z.object({
-  email: z.string().min(1, { message: "필수!" }).email({
-    message: "이메일 형식으로 입력해주세요.",
+  email: z.string().min(1, { message: '필수!' }).email({
+    message: '이메일 형식으로 입력해주세요.',
   }),
-  address: z.string().min(1, { message: "필수!" }),
+  address: z.string().min(1, { message: '필수!' }),
 });
 
 /** zod reservation form schema (rules) */
 export const reserveFormSchema = z.object({
-  hospital: z.string().min(1, { message: "필수!" }),
-  fstWishDate: z.string().min(1, { message: "필수!" }),
-  sndWishDate: z.string().min(1, { message: "필수!" }),
+  hospital: z.string().min(1, { message: '필수!' }),
+  fstWishDate: z.string().min(1, { message: '필수!' }),
+  sndWishDate: z.string().min(1, { message: '필수!' }),
 });
 
 const TestReservePage = () => {
@@ -32,7 +32,7 @@ const TestReservePage = () => {
 
   /** move steps */
   const next = async () => {
-    console.log("next", currentStage);
+    console.log('next', currentStage);
 
     let isValid = false;
     switch (currentStage) {
@@ -45,26 +45,26 @@ const TestReservePage = () => {
       default:
         break;
     }
-    console.log("isValid", isValid);
+    console.log('isValid', isValid);
     if (isValid) {
       setCurrentStage(currentStage + 1);
     }
   };
   const prev = () => {
-    console.log("prev", currentStage);
+    console.log('prev', currentStage);
     setCurrentStage(currentStage - 1);
   };
   const done = () => {
-    alert("예약 완료");
+    alert('예약 완료');
   };
 
   /** 회원정보 form */
   const userInfoForm = useForm<z.infer<typeof userInfoFormSchema>>({
     resolver: zodResolver(userInfoFormSchema),
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
-      email: "",
-      address: "",
+      email: '',
+      address: '',
     },
   });
   const {
@@ -77,11 +77,11 @@ const TestReservePage = () => {
   /** 예약 form */
   const reserveForm = useForm<z.infer<typeof reserveFormSchema>>({
     resolver: zodResolver(reserveFormSchema),
-    mode: "onChange",
+    mode: 'onChange',
     defaultValues: {
-      hospital: "",
-      fstWishDate: "",
-      sndWishDate: "",
+      hospital: '',
+      fstWishDate: '',
+      sndWishDate: '',
     },
   });
   const {
@@ -90,14 +90,14 @@ const TestReservePage = () => {
   } = reserveForm;
 
   const onSubmit = (data: z.infer<typeof userInfoFormSchema>) => {
-    console.log("submit data", data);
+    console.log('submit data', data);
     // next();
   };
 
   useEffect(() => {
-    console.log("currentStage", currentStage);
-    console.log("userInfoForm", userInfoForm.getValues());
-    console.log("reserveForm", reserveForm.getValues());
+    console.log('currentStage', currentStage);
+    console.log('userInfoForm', userInfoForm.getValues());
+    console.log('reserveForm', reserveForm.getValues());
   }, [currentStage]);
 
   return (

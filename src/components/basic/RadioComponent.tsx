@@ -1,5 +1,5 @@
-import uuid from "react-uuid";
-import { Label, RadioGroup, RadioGroupItem, ScrollArea } from "./ui";
+import uuid from 'react-uuid';
+import { Label, RadioGroup, RadioGroupItem, ScrollArea } from '../ui';
 
 interface RadioProps {
   data: {

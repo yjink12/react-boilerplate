@@ -1,6 +1,6 @@
-import uuid from "react-uuid";
-import { cn } from "../utils/cn";
-import { Separator } from "./ui";
+import uuid from 'react-uuid';
+import { cn } from '../../utils/cn';
+import { Separator } from '../ui';
 
 interface StepsProps {
   stage: number;
@@ -18,10 +18,10 @@ const StepsComponent = ({ stage, current }: StepsProps) => {
             {index % 2 === 0 ? (
               <div
                 className={cn([
-                  "h-8 w-8 font-bold rounded-2xl text-lg",
+                  'h-8 w-8 font-bold rounded-2xl text-lg',
                   current === stage - index / 2
-                    ? "bg-blue-400 text-white"
-                    : "bg-slate-300 text-white",
+                    ? 'bg-blue-400 text-white'
+                    : 'bg-slate-300 text-white',
                 ])}
               >
                 {stage - index / 2}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Checkbox, ScrollArea } from './ui';
+import { Checkbox, ScrollArea } from '../ui';
 import uuid from 'react-uuid';
-import { cn } from '../utils/cn';
+import { cn } from '../../utils/cn';
 
 interface CheckboxProps {
   type: string; // all(전체 선택) / none(초기화)

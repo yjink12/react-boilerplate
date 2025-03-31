@@ -1,4 +1,4 @@
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn } from 'react-hook-form';
 import {
   Button,
   FormControl,
@@ -7,11 +7,11 @@ import {
   FormLabel,
   FormMessage,
   Input,
-} from "../../../../components/ui";
-import { cn } from "../../../../utils/cn";
-import CalendarComponent from "../../../../components/calendar/CalendarComponent";
-import { useModal } from "../../../../hook/useModal";
-import { useState } from "react";
+} from '../../../components/ui';
+import { cn } from '../../../utils/cn';
+import CalendarComponent from '../../../components/calendar/CalendarComponent';
+import { useModal } from '../../../hook/useModal';
+import { useState } from 'react';
 
 interface ReserveFormComponentProps {
   form: UseFormReturn<
@@ -30,16 +30,16 @@ const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
   const invalidStyle = (fieldState: any) => {
     return [
       !fieldState.error && !fieldState.invalid && fieldState.isDirty
-        ? "focus-visible:ring-green-200"
+        ? 'focus-visible:ring-green-200'
         : fieldState.error
-        ? "ring-offset-2 ring-red-200 ring-2"
-        : "",
+        ? 'ring-offset-2 ring-red-200 ring-2'
+        : '',
     ];
   };
   const { open } = useModal();
 
   const onClickReserveDateConfirm = () => {
-    alert("예약일 선택 완료");
+    alert('예약일 선택 완료');
   };
 
   return (
@@ -51,9 +51,9 @@ const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
         control={form.control}
         name="hospital"
         render={({ field, fieldState }) => (
-          <FormItem className={"space-y-3 flex flex-col"}>
+          <FormItem className={'space-y-3 flex flex-col'}>
             <FormLabel
-              className={"font-semibold text-left pl-2 pb-1 text-inherit"}
+              className={'font-semibold text-left pl-2 pb-1 text-inherit'}
             >
               검진 희망 병원
             </FormLabel>
@@ -80,7 +80,7 @@ const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
             <div className="flex flex-row gap-2">
               <FormControl>
                 <Input
-                  size={"xl"}
+                  size={'xl'}
                   placeholder="날짜선택"
                   className={cn([invalidStyle(fieldState)])}
                   readOnly
@@ -93,13 +93,13 @@ const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
                 size="xl"
                 type="button" // type button 으로 선언을 하지 않으면 submit으로 인식되어 폼이 제출됨
                 onClick={() => {
-                  console.log("form");
+                  console.log('form');
                   open(
-                    "bottomPopup",
+                    'bottomPopup',
                     {
-                      compType: "calendar",
-                      title: "날짜선택",
-                      confirmLabel: "선택완료",
+                      compType: 'calendar',
+                      title: '날짜선택',
+                      confirmLabel: '선택완료',
                       onClickConfirm: onClickReserveDateConfirm,
                     },
                     CalendarComponent,
@@ -128,7 +128,7 @@ const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
             <div className="flex flex-row gap-2">
               <FormControl className="flex flex-row">
                 <Input
-                  size={"xl"}
+                  size={'xl'}
                   placeholder="날짜선택"
                   className={cn([invalidStyle(fieldState)])}
                   readOnly
@@ -142,11 +142,11 @@ const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
                 type="button"
                 onClick={() =>
                   open(
-                    "bottomPopup",
+                    'bottomPopup',
                     {
-                      compType: "calendar",
-                      title: "날짜선택",
-                      confirmLabel: "선택완료",
+                      compType: 'calendar',
+                      title: '날짜선택',
+                      confirmLabel: '선택완료',
                       onClickConfirm: onClickReserveDateConfirm,
                     },
                     CalendarComponent,

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useTestStore } from "../../store/useTestStore";
+import { useEffect, useState } from 'react';
+import { useTestStore } from '../../store/useTestStore';
 import {
   Button,
   Drawer,
@@ -10,12 +10,10 @@ import {
   DrawerHeader,
   DrawerTitle,
   ScrollArea,
-} from "../ui";
-import ButtonComponent from "./ButtonComponent";
-import { MockCheckupList } from "../../utils/mockData";
-import FilterCheckboxComponent from "./FilterCheckboxComponent";
-import clsx from "clsx";
-import CalendarComponent from "../calendar/CalendarComponent";
+} from '../ui';
+import { MockCheckupList } from '../../utils/mockData';
+import FilterCheckboxComponent from './FilterCheckboxComponent';
+import clsx from 'clsx';
 
 const DrawerComponent = () => {
   const { setIsOpenDrawer } = useTestStore((state) => state);
@@ -30,17 +28,17 @@ const DrawerComponent = () => {
 
   const drawerDataList = [
     {
-      key: "checkbox",
-      title: "희망검사",
-      description: "여러개 선택 가능?",
+      key: 'checkbox',
+      title: '희망검사',
+      description: '여러개 선택 가능?',
     },
     {
-      key: "button",
-      title: "지역선택",
+      key: 'button',
+      title: '지역선택',
     },
     {
-      key: "calendar",
-      title: "날짜선택",
+      key: 'calendar',
+      title: '날짜선택',
     },
   ];
 
@@ -54,8 +52,8 @@ const DrawerComponent = () => {
   return (
     <Drawer open={isOpenDrawer} onOpenChange={setIsOpenDrawer}>
       <DrawerContent
-        className={clsx("", {
-          [`h-full rounded-none`]: drawerType.includes("calendar"),
+        className={clsx('', {
+          [`h-full rounded-none`]: drawerType.includes('calendar'),
         })}
       >
         <DrawerClose asChild className="pb-1">
@@ -82,17 +80,17 @@ const DrawerComponent = () => {
           </ScrollArea>
         )}
         {drawerType === "button" && <ButtonComponent />} */}
-        {drawerType === "checkbox" && (
+        {drawerType === 'checkbox' && (
           <ScrollArea className="h-80 w-full rounded-md border-none px-5 pb-3">
             <FilterCheckboxComponent
               cols={2}
-              type={"none"}
+              type={'none'}
               data={MockCheckupList}
             />
           </ScrollArea>
         )}
         <DrawerFooter>
-          <Button size={"lg"} onClick={() => setIsOpenDrawer(false)}>
+          <Button size={'lg'} onClick={() => setIsOpenDrawer(false)}>
             선택 완료
           </Button>
         </DrawerFooter>

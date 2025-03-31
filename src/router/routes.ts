@@ -1,5 +1,5 @@
-import TestPage from '../pages/test';
-import TestReservePage from '../pages/test/reserve';
+import TestPage from '../pages';
+import TestReservePage from '../pages/reserve';
 
 export const routes = [
   {

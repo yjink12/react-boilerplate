@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import CardComponent from '../../components/CardComponent';
-import CheckboxComponent from '../../components/CheckboxComponent';
+import CardComponent from '../components/basic/CardComponent';
+import CheckboxComponent from '../components/basic/CheckboxComponent';
 import {
   Button,
   Input,
@@ -9,11 +9,12 @@ import {
   MenubarTrigger,
   Separator,
   Skeleton,
-} from '../../components/ui';
-import { useTestStore } from '../../store/useTestStore';
-import RadioComponent from '../../components/RadioComponent';
-import FormComponent from '../../components/test/FormComponent';
+} from '../components/ui';
+import { useTestStore } from '../store/useTestStore';
+import RadioComponent from '../components/basic/RadioComponent';
+import FormComponent from '../components/basic/FormComponent';
 import {
+  menuBarList,
   MockCheckupList,
   MockDsseList,
   MockLocationList,
@@ -22,74 +23,22 @@ import {
   MockTermsList,
   MockUserInfo,
   MockUserInfoLabel,
-} from '../../utils/mockData';
-import StepsComponent from '../../components/StepsComponent';
+} from '../utils/mockData';
+import StepsComponent from '../components/basic/StepsComponent';
 import uuid from 'react-uuid';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../hook/useModal';
-import CalendarComponent from '../../components/calendar/CalendarComponent';
+import { useModal } from '../hook/useModal';
+import CalendarComponent from '../components/calendar/CalendarComponent';
 import FilterCheckboxComponent, {
   CheckboxProps,
-} from '../../components/test/FilterCheckboxComponent';
+} from '../components/basic/FilterCheckboxComponent';
 import ButtonComponent, {
   ButtonProps,
-} from '../../components/test/ButtonComponent';
-import DialogComponent from '../../components/modal/DialogComponent';
-import { AlertMessage } from '../../components/modal/alertMessage';
+} from '../components/basic/ButtonComponent';
+import DialogComponent from '../components/modal/DialogComponent';
+import { AlertMessage } from '../components/modal/alertMessage';
 
-interface MenuBar {
-  key: string;
-  title: string;
-}
-
-const menuBarList: MenuBar[] = [
-  {
-    key: 'card',
-    title: 'Card',
-  },
-  {
-    key: 'drawer',
-    title: 'Drawer',
-  },
-  {
-    key: 'checkbox',
-    title: 'Checkbox',
-  },
-  {
-    key: 'radio',
-    title: 'Radio',
-  },
-  {
-    key: 'form',
-    title: 'Form',
-  },
-  {
-    key: 'steps',
-    title: 'Steps',
-  },
-  {
-    key: 'calendar',
-    title: 'Calendar',
-  },
-  {
-    key: 'filter',
-    title: 'Filter',
-  },
-  {
-    key: 'skeleton',
-    title: 'Skeleton',
-  },
-  {
-    key: 'reserve',
-    title: 'Reserve',
-  },
-  {
-    key: 'dialog',
-    title: 'Dialog',
-  },
-];
-
-const TestPage = (): React.ReactElement => {
+const MainPage = (): React.ReactElement => {
   const navigate = useNavigate();
   const [selectMenu, setSelectMenu] = useState('');
   const { filterData, setIsOpenDrawer, setDrawerType, resetFilterData } =
@@ -400,7 +349,7 @@ const TestPage = (): React.ReactElement => {
                   )
                 }
               >
-                Open Calendar
+                달력 확인
               </Button>
             </div>
             <div className="font-semibold text-left">[2차 예약일] </div>
@@ -424,7 +373,7 @@ const TestPage = (): React.ReactElement => {
                   )
                 }
               >
-                Open Calendar
+                달력 확인
               </Button>
             </div>
           </div>
@@ -515,4 +464,4 @@ const TestPage = (): React.ReactElement => {
     </div>
   );
 };
-export default TestPage;
+export default MainPage;

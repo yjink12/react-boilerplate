@@ -1,6 +1,6 @@
-import CheckboxComponent from "../../../../components/CheckboxComponent";
-import RadioComponent from "../../../../components/RadioComponent";
-import { questionnaire } from "./questionnaire";
+import CheckboxComponent from '../../../components/basic/CheckboxComponent';
+import RadioComponent from '../../../components/basic/RadioComponent';
+import { questionnaire } from './questionnaire';
 
 const HealthQuestionnaireComponent = () => {
   return (
@@ -13,12 +13,12 @@ const HealthQuestionnaireComponent = () => {
               {`Q${item.sequence}. ${item.question}`}
             </div>
             <div>
-              {item.answerType === "single" && (
+              {item.answerType === 'single' && (
                 <RadioComponent data={item.answerList} />
               )}
-              {item.answerType === "multiple" && (
+              {item.answerType === 'multiple' && (
                 <CheckboxComponent
-                  type={item.includeNA ? "default" : "none"}
+                  type={item.includeNA ? 'default' : 'none'}
                   cols={2}
                   data={item.answerList}
                   includeNA={item.includeNA}

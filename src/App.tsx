@@ -3,7 +3,7 @@ import './App.css';
 import Header from './layout/Header';
 import Router from './router';
 import ModalComponent from './components/modal/ModalComponent';
-import DrawerComponent from './components/test/DrawerComponent';
+import DrawerComponent from './components/basic/DrawerComponent';
 
 function App() {
   const currentPath = useLocation();
