@@ -17,18 +17,382 @@
   <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
 </div>
 
+## 📖 목차
+1. [프로젝트 목적](#프로젝트-목적)
+2. [배포 URL](#배포-URL)
+3. [Preview](#Preview)
+4. [Modal 개선](#Modal-개선)
+5. [라이브러리 사용기록](#라이브러리-사용기록)
+   - [Zustand](#Zustand)
+   - [shadcn/ui](#shadcn/ui)
+   - [React-hook-form](#React-hook-form)
+   - [Zod](#Zod)
+   - [shadcn/ui + React-hook-form + zod](#shadcn/ui-+-React-hook-form-+-zod)
+6. [폴더구조](#폴더구조)
+
+---
+
 ## 프로젝트 목적
 - 자주 쓰이는 컴포넌트 정리
 - zustand, tailwind css, shadcn/ui 라이브러리 사용
 
+
 ## 배포 URL
 https://react-boilerplate-neon.vercel.app/
+
 
 
 ## Preview
 | Card | Drawer | Calendar |
 |:---:|:---:|:---:|
 | <img src="https://github.com/user-attachments/assets/2c8875e2-0ce3-4239-bacd-315b1b2f4308" width="300"> | <img src="https://github.com/user-attachments/assets/2a6af126-7cad-43de-bba2-b394485b1e6b" width="300"> | <img src="https://github.com/user-attachments/assets/a6d8dbf4-1051-4f1f-9e31-ca33de36b7c4" width="300"> |
+
+
+## Modal 개선
+<details>
+<summary><h3>기존 Modal</h3></summary>
+<div markdown="1">
+
+1. bottompopup 을 띄울 수 있는 공통 컴포넌트 생성
+2. **`zustand` -** bottompopup 을 open/close 하는 상태 전역 관리 선언 
+    
+    ```jsx
+    import { create } from "zustand";
+    
+    type TestStoreState = {
+        isOpenDrawer: boolean;
+        drawerType: string;
+    }
+    
+    type TestStoreActions = {
+        setIsOpenDrawer: (isOpen: boolean) => void;
+        setDrawerType: (type: string) => void;
+    }
+    
+    type TestStore = TestStoreState & TestStoreActions;
+    
+    // 초기값
+    const initialState: TestStoreState = {
+        // drawer 노출 여부
+        isOpenDrawer: false,
+        // drawer type
+        drawerType: "default",
+    } 
+    
+    export const useTestStore = create<TestStore>((set) => ({
+        ...initialState,
+        setIsOpenDrawer: (isOpen: boolean) => set({ isOpenDrawer: isOpen }),
+        setDrawerType: (type: string) => set({ drawerType: type }),
+    }));
+    ```
+    
+3. 각 bottompopup 마다 노출 내용 다름 
+    
+    구분값으로 ⇒ 속성을 선언해서 노출 처리
+    
+    (drawerType ⇒ calendar, button, checkbox)
+    
+    ```jsx
+    const DrawerComponent = () => {
+    	const { setIsOpenDrawer } = useTestStore((state) => state);
+      const isOpenDrawer = useTestStore((state) => state.isOpenDrawer);
+      const drawerType = useTestStore((state) => state.drawerType);
+    	...
+    	return (
+    		<Drawer open={isOpenDrawer} onOpenChange={setIsOpenDrawer}>
+    		...
+    		{drawerType.includes("calendar") && (
+    		    <ScrollArea className="h-5/6 w-full rounded-md border-none">
+    		      <CalendarComponent />
+    		    </ScrollArea>
+    		  )}
+    		  {drawerType === "button" && <ButtonComponent />}
+    		  {drawerType === "checkbox" && (
+    		    <ScrollArea className="h-80 w-full rounded-md border-none px-5 pb-3">
+    		      <FilterCheckboxComponent
+    		        cols={2}
+    		        type={"none"}
+    		        data={MockCheckupList}
+    		      />
+    		    </ScrollArea>
+    		  )}	
+    		  ...	
+    		</Drawer>
+    	)
+    }
+    ```
+    
+4. **문제점**
+    1. bottompopup 종류가 많아질수록 조건문이 증가 
+        
+        ⇒ 코드 복잡성 증가
+
+  
+</div>
+</details>
+
+<details>
+<summary><h3>Modal 개선</h3></summary>
+<div markdown="1">
+  
+- bottompopup  뿐만 아니라 dialog (화면 중앙 노출 popup)도 사용할 수 있음
+1. **useModalStore** 생성
+    
+    ⇒ modal 에 대한 open/close 를 전역으로 관리
+    
+    ```jsx
+    import { create } from 'zustand';
+    
+    /**
+     * Record<key, value>
+     *  eg) type Names = 'apple' | 'banana'
+     *      type fruitsRecord = Record<Names, number>;
+     *      let fruits: fruitsRecord = {
+     *          'apple': 100,
+     *          'banana' : 200
+     *      }
+     */
+    export interface ModalComponentProps {
+        type: 'bottomPopup' | 'dialog' | 'default';
+        props?: Record<string, any>; // 모달 자체에 전달할 속성들
+        Component: React.FC<any>;   // 모달 내부 렌더링될 컴포넌트
+        componentProps?: Record<string, any>;  // 컴포넌트에 전달할 속성들
+    }
+    interface ModalStoreState {
+        modals: ModalComponentProps; // 현재 관리 중인 모달 컴포넌트
+        isOpen: boolean;
+    }
+    interface ModalStoreAction {
+        open: (
+            type: string,
+            props: Record<string, any>,
+            Component: React.FC<any>,
+            componentProps: Record<string, any>
+        ) => void;
+        setIsOpen: (isOpen: boolean) => void;
+    }
+    
+    type ModalStore = ModalStoreState & ModalStoreAction;
+    
+    export const useModalStore = create<ModalStore>((set) => ({
+        modals: {
+            type: 'default',
+            props: {},
+            Component: () => null,
+            componentProps: {},
+        } as ModalComponentProps,
+        isOpen: false,
+        open: (type, props, Component, componentProps) =>
+            set((state) => ({
+                modals: {
+                    ...state.modals,
+                    type: type as 'bottomPopup' | 'dialog' | 'default',
+                    props: props,
+                    Component: Component,
+                    componentProps: componentProps,
+                },
+                isOpen: true,
+            })),
+        setIsOpen: (isOpen: boolean) => set({ isOpen: isOpen }),
+    }));
+    
+    ```
+    
+2. **useModal** hook 생성
+    
+    ```jsx
+    // 매번 store state 선언해서 사용
+    const isOpen = useModalState((state) => state.isOpen);
+    ...
+    
+    => 하나의 파일에서 관리
+    
+    import { useModalStore } from "../store/useModalStore"
+    
+    export const useModal = () => {
+        const modals = useModalStore((state) => state.modals);
+        const isOpen = useModalStore((state) => state.isOpen
+        const setIsOpen = useModalStore((state) => state.setIsOpen);
+        const open = useModalStore((state) => state.open);
+        // const close = useModalStore((state) => state.close);
+    
+        return {
+            modals,
+            isOpen,
+            open,
+            setIsOpen
+            // close,
+        }
+    }
+    ```
+    
+3. modal 사용 컴포넌트
+    
+    ⇒ component 를  직접 import 하지 않고 useModal hook의 open 함수 호출
+    
+    ```jsx
+    const { open } = useModal();
+    
+    /** open(type, props, Component, componentProps) */
+    ...
+    <Button
+      onClick={() => {
+        // setIsOpen(true);
+        open(
+          "bottomPopup",
+          {
+            compType: "checkbox",
+            title: "희망검사 선택",
+            description: "희망검사를 선택해주세요.",
+            onClickConfirm: onClickCheckupConfirm,
+          },
+          FilterCheckboxComponent,
+          {
+            data: MockCheckupList,
+            type: "none",
+            cols: 2,
+          }
+        );
+      }}
+    >
+      OPEN Drawer
+    </Button>
+    ```
+
+4. ModalComponent 생성
+    
+    ⇒ useModalStore 에서 modal 데이터 가져오고 가져온 Modal 을 타입에 따라 Component 로 렌더링
+   ```jsx
+    import { useModal } from "../../hook/useModal";
+    import DialogComponent from "./dialog/DialogComponent";
+    import BottomPopupComponent from "./bottomPopup/BottomPopupComponent";
+    
+    /**
+     *  useModalStore 로 부터 모달 가져오고
+     *  가져온 모달을 타입에 따라 component로 렌더링
+     */
+    const ModalComponent = () => {
+      const { modals } = useModal();
+      const { Component, props, componentProps, type } = modals;
+    
+      return (
+        <>
+          {type && type === "dialog" && <DialogComponent />}
+          {type && type === "bottomPopup" && (
+            <BottomPopupComponent {...props}>
+              <Component {...componentProps} />
+            </BottomPopupComponent>
+          )}
+        </>
+      );
+    };
+    export default ModalComponent;
+    
+    ```
+   | Bottompopup | Dialog | 
+    |:---:|:---:|
+    | <img width="260" alt="Image" src="https://github.com/user-attachments/assets/8362f22a-b819-418e-b330-83c055c01d1c" /> | <img width="260" alt="Image" src="https://github.com/user-attachments/assets/cd47e712-153a-4c03-9814-aa0873774a75" /> |
+    
+
+    
+
+5. **BottomPopupComponent**
+    
+    ```jsx
+    ...
+    import { useModal } from "../../../hook/useModal";
+    
+    interface BottomPopupProps {
+      compType?: string;
+      title?: string;
+      description?: string;
+      onClickConfirm?: () => void;
+      children: React.ReactNode;
+    }
+    
+    const BottomPopupComponent = ({
+      children,
+      compType,
+      title,
+      description,
+      onClickConfirm,
+    }: BottomPopupProps) => {
+      const { isOpen, setIsOpen } = useModal();
+    
+      return (
+        <Drawer open={isOpen} onOpenChange={setIsOpen}>
+          <DrawerContent
+            className={clsx("", {
+              [`h-full rounded-none`]: compType?.includes("calendar"),
+            })}
+          >
+            <DrawerClose asChild className="pb-1">
+              <div className="flex flex-row justify-end mr-7 mt-1 cursor-pointer">
+                <img
+                  src="/images/common/close.png"
+                  alt="drawer"
+                  className="w-4 h-4"
+                  onClick={() => setIsOpen(false)}
+                />
+              </div>
+            </DrawerClose>
+            <DrawerHeader className="flex flex-col items-start">
+              <DrawerTitle>{title}</DrawerTitle>
+              <DrawerDescription hidden={description !== undefined ? false : true}>
+                {description}
+              </DrawerDescription>
+            </DrawerHeader>
+            {children}
+            <DrawerFooter>
+              <Button
+                size={"lg"}
+                onClick={() => {
+                  if (onClickConfirm) {
+                    onClickConfirm();
+                  }
+                  setIsOpen(false);
+                  // close();
+                }}
+              >
+                선택 완료
+              </Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      );
+    };
+    export default BottomPopupComponent;
+    
+    ```
+6. 전역으로 open close 관리 ⇒ **App.tsx에 import**
+    
+    ```jsx
+    ...
+    import ModalComponent from "./components/modal/ModalComponent";
+    import DrawerComponent from "./components/test/DrawerComponent";
+    
+    function App() {
+      const currentPath = useLocation();
+    
+      return (
+        <div className="App">
+          <div className="w-full h-auto min-w-[360px] max-w-[768px] mx-auto bg-white">
+            <Header pathName={currentPath.pathname} />
+            <Router />
+            <ModalComponent />
+          </div>
+          {/* <DrawerComponent /> */}
+        </div>
+      );
+    }
+    
+    export default App;
+    
+    ```
+</div>
+</details>
+
+
 
 ## 라이브러리 사용기록
 ### **Zustand**
