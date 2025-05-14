@@ -36,10 +36,6 @@ export const menuBarList: { key: string; title: string }[] = [
     title: 'Skeleton',
   },
   {
-    key: 'reserve',
-    title: 'Reserve',
-  },
-  {
     key: 'dialog',
     title: 'Dialog',
   },
@@ -270,30 +266,6 @@ export const MockCheckupList = [
   },
   {
     key: 12,
-    value: '허리CT',
-    checked: false,
-    disabled: false,
-  },
-  {
-    key: 13,
-    value: '허리CT',
-    checked: false,
-    disabled: false,
-  },
-  {
-    key: 14,
-    value: '허리CT',
-    checked: false,
-    disabled: false,
-  },
-  {
-    key: 15,
-    value: '허리CT',
-    checked: false,
-    disabled: false,
-  },
-  {
-    key: 16,
     value: '허리CT',
     checked: false,
     disabled: false,
