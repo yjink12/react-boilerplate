@@ -1,6 +1,5 @@
-import { useModal } from "../../hook/useModal";
-import DialogComponent from "./DialogComponent";
-import BottomPopupComponent from "./BottomPopupComponent";
+import { useModal } from '../../hook/useModal';
+import { ModalContainer } from './ModalContainer';
 
 /**
  *  useModalStore 로 부터 모달 가져오고
@@ -8,17 +7,9 @@ import BottomPopupComponent from "./BottomPopupComponent";
  */
 const ModalComponent = () => {
   const { modals } = useModal();
-  const { Component, props, componentProps, type } = modals;
+  const { type } = modals;
 
-  return (
-    <>
-      {type && type === "dialog" && <DialogComponent {...props} />}
-      {type && type === "bottomPopup" && (
-        <BottomPopupComponent {...props}>
-          <Component {...componentProps} />
-        </BottomPopupComponent>
-      )}
-    </>
-  );
+  const ModalComponent = ModalContainer[type];
+  return <>{ModalComponent && <ModalComponent />}</>;
 };
 export default ModalComponent;

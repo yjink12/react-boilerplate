@@ -1,54 +1,55 @@
 import { create } from 'zustand';
+import {
+  BottomPopupModalProps,
+  DialogModalProps,
+  ModalComponentProps,
+} from '../types/modal';
 
-/**
- * Record<key, value>
- *  eg) type Names = 'apple' | 'banana'
- *      type fruitsRecord = Record<Names, number>;
- *      let fruits: fruitsRecord = {
- *          'apple': 100,
- *          'banana' : 200
- *      }
- */
-export interface ModalComponentProps {
-  type: 'bottomPopup' | 'dialog' | 'default';
-  props?: Record<string, any>; // 모달 자체에 전달할 속성들
-  Component: React.FC<any>; // 모달 내부 렌더링될 컴포넌트
-  componentProps?: Record<string, any>; // 컴포넌트에 전달할 속성들
-}
+// type ModalType = 'dialog' | 'bottomPopup';
+
 interface ModalStoreState {
   modals: ModalComponentProps; // 현재 관리 중인 모달 컴포넌트
   isOpen: boolean;
 }
+
+/** 상태 변경 액션 - 제네릭 사용 -> 모달 유형에 따라 타입 분기*/
 interface ModalStoreAction {
-  open: (
-    type: string,
-    props: Record<string, any>,
+  open: <T extends ModalComponentProps['type']>(
+    type: T,
+    props: T extends 'dialog' ? DialogModalProps : BottomPopupModalProps,
     Component: React.FC<any>,
     componentProps: Record<string, any>
-  ) => void;
-  setIsOpen: (isOpen: boolean) => void;
+  ) => void; // 모달 open, 상태 update
+  setIsOpen: (isOpen: boolean) => void; // 모달 open true/false
 }
 
 type ModalStore = ModalStoreState & ModalStoreAction;
 
 export const useModalStore = create<ModalStore>((set) => ({
+  // 초기 상태 값 설정
   modals: {
-    type: 'default',
-    props: {},
+    type: 'dialog',
+    props: {
+      type: '',
+      title: '',
+      description: '',
+      content: '',
+      confirmLabel: '',
+      compType: '',
+    },
     Component: () => null,
     componentProps: {},
   } as ModalComponentProps,
   isOpen: false,
   open: (type, props, Component, componentProps) =>
-    set((state) => ({
+    set(() => ({
       modals: {
-        ...state.modals,
-        type: type as 'bottomPopup' | 'dialog' | 'default',
+        type,
         props: props,
-        Component: Component,
-        componentProps: componentProps,
-      },
+        Component,
+        componentProps,
+      } as ModalComponentProps,
       isOpen: true,
     })),
-  setIsOpen: (isOpen: boolean) => set({ isOpen: isOpen }),
+  setIsOpen: (isOpen) => set({ isOpen }),
 }));

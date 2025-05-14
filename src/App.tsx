@@ -3,7 +3,6 @@ import './App.css';
 import Header from './layout/Header';
 import Router from './router';
 import ModalComponent from './components/modal/ModalComponent';
-import DrawerComponent from './components/basic/DrawerComponent';
 
 function App() {
   const currentPath = useLocation();
@@ -16,7 +15,6 @@ function App() {
         <Router />
         <ModalComponent />
       </div>
-      {/* <DrawerComponent /> */}
     </div>
   );
 }

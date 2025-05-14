@@ -1,8 +1,8 @@
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
-} from "@ant-design/icons";
-import { useModal } from "../../hook/useModal";
+} from '@ant-design/icons';
+import { useModal } from '../../hook/useModal';
 import {
   Button,
   Dialog,
@@ -11,59 +11,52 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "../ui";
+} from '../ui';
+import { isDialogProps } from '../../types/modal';
 
-interface DialogProps {
-  type?: string;
-  title?: string;
-  description?: string;
-  content?: string;
-  confirmLabel?: string;
-  onClickConfirm?: () => void;
-}
+const DialogComponent = () => {
+  const { isOpen, setIsOpen, modals } = useModal();
 
-const DialogComponent = ({
-  type,
-  title,
-  description,
-  content,
-  confirmLabel,
-  onClickConfirm,
-}: DialogProps) => {
-  const { isOpen, setIsOpen } = useModal();
+  if (modals && isDialogProps(modals)) {
+    const { props } = modals;
 
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogContent className="max-w-[325px] rounded-2xl">
-        <DialogHeader>
-          <div className="text-2xl py-2 ">
-            {type === "success" ? (
-              <CheckCircleOutlined className="text-green-600" />
-            ) : (
-              <ExclamationCircleOutlined className="text-red-600" />
-            )}
-          </div>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription hidden={description !== undefined ? false : true}>
-            {description}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="text-center py-4">{content}</div>
-        <DialogFooter>
-          <Button
-            className="rounded-3xl"
-            onClick={() => {
-              if (onClickConfirm) {
-                onClickConfirm();
-              }
-              setIsOpen(false);
-            }}
-          >
-            {confirmLabel}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="max-w-[325px] rounded-2xl">
+          <DialogHeader>
+            <div className="text-2xl py-2 ">
+              {props.type === 'success' ? (
+                <CheckCircleOutlined className="text-green-600" />
+              ) : (
+                <ExclamationCircleOutlined className="text-red-600" />
+              )}
+            </div>
+            <DialogTitle>{props.title}</DialogTitle>
+            <DialogDescription
+              hidden={props?.description !== undefined ? false : true}
+            >
+              {props?.description}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="text-center py-4">{props.content}</div>
+          <DialogFooter>
+            <Button
+              className="rounded-3xl"
+              onClick={() => {
+                if (props?.onClickConfirm) {
+                  props?.onClickConfirm();
+                }
+                setIsOpen(false);
+              }}
+            >
+              {props.confirmLabel}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  } else {
+    return null;
+  }
 };
 export default DialogComponent;
