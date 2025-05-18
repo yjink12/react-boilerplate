@@ -53,18 +53,18 @@ https://react-boilerplate-neon.vercel.app/
 [Modal](https://swamp-bass-b68.notion.site/Modal-668d076d393641ffbbd0bdec881b196d?pvs=4)
    
 **문제상황**
-  - modal 을 관리하는 컴포넌트에서 속성으로 분기 처리해서 각각의 속성에 따른 컴포넌트 렌더링
-    => bottompopup 종류가 많아질 수록 조건문 증가
+  modal 사용 컴포넌트에 매번 open / close state 선언해서 사용
+  modal 사용하는 컴포넌트에 매번 modal 컴포넌트를 선언해서 사용
     
 **개선방향**
-  - 하나의 modal 컴포넌트를 App 최상단에 두고 현재 상태에 따라 어떤 modal 을 렌더링 할지 결정
-  - modal component 도 전역으로 관리
   - 어떤 상황에서 어떤 modal 이 어떻게 열리고 닫히는지 예측 가능하게 만들기
+  - modal 공통 컴포넌트를 App 최상단에 두고 현재 상태에 따라 어떤 modal 을 렌더링 할지 결정
+  - modal component 도 전역으로 관리
 
 [Upgrade Modal](https://swamp-bass-b68.notion.site/Upgrade-Modal-1f3204588dd680579260f43a1952dc03?pvs=4)
 
 **문제상황**
-  - 하나의 modal 컴포넌트에서 dialog, bottomPopup 이외에도 Modal 유형이 늘어날 경우
+  - modal 공통 컴포넌트에서 dialog, bottomPopup 이외에도 modal 유형이 늘어날 경우
     조건문이 길어지고 가독성이 떨어짐
     
 **개선방향**
