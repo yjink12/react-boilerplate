@@ -53,8 +53,8 @@ https://react-boilerplate-neon.vercel.app/
 [Modal](https://swamp-bass-b68.notion.site/Modal-668d076d393641ffbbd0bdec881b196d?pvs=4)
    
 **문제상황**
-  modal 사용 컴포넌트에 매번 open / close state 선언해서 사용
-  modal 사용하는 컴포넌트에 매번 modal 컴포넌트를 선언해서 사용
+  - modal 사용 컴포넌트에 매번 open / close state 선언해서 사용
+  - modal 사용하는 컴포넌트에 매번 modal 컴포넌트를 선언해서 사용
     
 **개선방향**
   - 어떤 상황에서 어떤 modal 이 어떻게 열리고 닫히는지 예측 가능하게 만들기
