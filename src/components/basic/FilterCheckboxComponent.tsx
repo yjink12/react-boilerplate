@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
-import { Checkbox, ScrollArea } from "../ui";
-import uuid from "react-uuid";
-import { useTestStore } from "../../store/useTestStore";
-import { cn } from "../../utils/cn";
+import { useEffect, useState } from 'react';
+import { Checkbox, ScrollArea } from '../ui';
+import uuid from 'react-uuid';
+import { useTestStore } from '../../store/useTestStore';
+import { cn } from '../../utils/cn';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
 export interface CheckboxProps {
   type?: string; // all(전체 선택) / none(초기화)
@@ -31,17 +32,23 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   // 개별 선택
   const onClickCheckbox = (id: number, checked: boolean) => {
     if (checked) {
+      // 선택한 checkbox 리스트에 추가
       setSelectList([...selectList, id]);
+      // filterData에 추가
       const newFilterData = filterData.map((filter) => {
-        return filter.key === "checkup"
+        return filter.key === 'checkup'
           ? { ...filter, value: [...filter.value, id] }
           : filter;
       });
       setFilterData(newFilterData);
+      // 선택 안함 체크 해제
+      setCheckedNone(false);
+      console.log('체크박스 체크', checked);
+      console.log('선택한 id 체크', id);
     } else {
       setSelectList(selectList.filter((item) => item !== id));
       const newFilterData = filterData.map((filter) => {
-        return filter.key === "checkup"
+        return filter.key === 'checkup'
           ? { ...filter, value: filter.value.filter((item) => item !== id) }
           : filter;
       });
@@ -57,8 +64,8 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   };
 
   // 전체 선택
-  const onClickAllCheckbox = (checked: any) => {
-    console.log("????", checked);
+  const onClickAllCheckbox = (checked: CheckedState) => {
+    console.log('전체 선택 확인', checked);
     if (checked) {
       setSelectList(list.map((item) => item.key));
       setList(list.map((item) => ({ ...item, checked: true })));
@@ -74,7 +81,7 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
     if (checked) {
       setCheckedNone(true);
       const newFilterData = filterData.map((filter) => {
-        return filter.key === "checkup" ? { ...filter, value: [0] } : filter;
+        return filter.key === 'checkup' ? { ...filter, value: [0] } : filter;
       });
       setFilterData(newFilterData);
     } else {
@@ -102,7 +109,8 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
   useEffect(() => {
     // resetFilterData();
     filterData.map((filter) => {
-      if (filter.key === "checkup") {
+      // 희망검사
+      if (filter.key === 'checkup') {
         setSelectList(filter.value);
         if (filter.value.includes(0)) {
           setCheckedNone(true);
@@ -122,11 +130,11 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
 
   return (
     <ScrollArea className="h-80 w-full rounded-md border-none px-5 pb-3">
-      {type === "all" && (
+      {type === 'all' && (
         <div key={1} className="items-top flex space-x-2 mb-5">
           <Checkbox
             id="all"
-            variant={"round"}
+            variant={'round'}
             onCheckedChange={(checked) => onClickAllCheckbox(checked)}
             checked={checkedAll}
           />
@@ -140,7 +148,7 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
           </div>
         </div>
       )}
-      {type === "none" && (
+      {type === 'none' && (
         <div key={2} className="items-top flex space-x-2 mb-5">
           <Checkbox
             id="none"
@@ -159,22 +167,25 @@ const FilterCheckboxComponent = ({ type, data, cols }: CheckboxProps) => {
       )}
       <div className={`grid grid-cols-${cols} gap-4 pb-16`}>
         {list.map((item) => {
-          const id = uuid();
+          // const id = uuid();
           return (
-            <div key={item.key} className="items-top flex space-x-2">
+            <div
+              key={`fc_${type}_${item.key.toString()}`}
+              className="items-top flex space-x-2"
+            >
               <Checkbox
-                id={id}
-                variant={type === "none" ? "default" : "round"}
+                id={`fc_${type}_${item.key.toString()}`}
+                variant={type === 'none' ? 'default' : 'round'}
                 checked={item.checked}
                 onClick={() => onClickCheckbox(item.key, !item.checked)}
                 disabled={checkedNone ? item.disabled : false}
               />
               <div className="grid gap-1.5 leading-none">
                 <label
-                  htmlFor={id}
+                  htmlFor={`fc_${type}_${item.key.toString()}`}
                   className={cn([
-                    "text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer",
-                    checkedNone && item.key !== 0 ? "text-gray-500" : "",
+                    'text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer',
+                    checkedNone && item.key !== 0 ? 'text-gray-500' : '',
                   ])}
                 >
                   {item.value}
