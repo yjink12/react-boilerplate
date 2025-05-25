@@ -1,37 +1,48 @@
 import { useEffect, useState } from 'react';
-import { Checkbox, ScrollArea } from '../ui';
-import uuid from 'react-uuid';
+import { Checkbox } from '../ui';
 import { cn } from '../../utils/cn';
+import { CheckboxItem } from '../../types/data';
+import uuid from 'react-uuid';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
 interface CheckboxProps {
-  type: string; // all(전체 선택) / none(초기화)
-  data: {
-    key: number;
-    value: string;
-    checked?: boolean;
-    required?: boolean;
-    disabled?: boolean;
-  }[];
+  data: CheckboxItem[];
   cols: number;
-  includeNA?: boolean;
+  boxType?: 'default' | 'round'; // checkbox type
+  reset?: { include: boolean; label: string; checked?: boolean }; // 초기화 checkbox 존재 여부
+  all?: { label: string }; // 전체 선택 checkbox 존재 여부
+  selectedListData: {
+    selectedList: number[];
+    setSelectedList: React.Dispatch<React.SetStateAction<number[]>>;
+  };
 }
 
-const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
+const CheckboxComponent = ({
+  data,
+  cols,
+  boxType,
+  reset,
+  all,
+  selectedListData,
+}: CheckboxProps) => {
+  const uuidKey = uuid();
   // checkbox 리스트
   const [list, setList] = useState(data);
-  // 선택한 checkbox 리스트
-  const [selectList, setSelectList] = useState<number[]>([]);
-  // 전체 선택 여부
+  // '전체 선택' 선택 여부
   const [checkedAll, setCheckedAll] = useState(false);
-  // 선택 안함 선택 여부
-  const [checkedNone, setCheckedNone] = useState(false);
+  // '선택 안함' 선택 여부
+  const [checkedNone, setCheckedNone] = useState(reset?.checked || false);
+  // props - 선택된 검사 key 리스트
+  const { selectedList, setSelectedList } = selectedListData;
 
   // 개별 선택
   const onClickCheckbox = (key: number, checked: boolean) => {
     if (checked) {
-      setSelectList([...selectList, key]);
+      // 선택한 checkbox 리스트에 추가
+      setSelectedList((prev: number[]) => [...prev, key]);
     } else {
-      setSelectList(selectList.filter((item) => item !== key));
+      // 선택한 checkbox 리스트에서 제거
+      setSelectedList((prev) => prev.filter((item) => item !== key));
     }
 
     // 리스트 update
@@ -43,20 +54,19 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
   };
 
   // 전체 선택
-  const onClickAllCheckbox = (checked: any) => {
-    console.log('????', checked);
+  const onClickAllCheckbox = (checked: CheckedState) => {
     if (checked) {
-      setSelectList(list.map((item) => item.key));
+      setSelectedList(list.map((item) => item.key));
       setList(list.map((item) => ({ ...item, checked: true })));
     } else {
       // 초기화
-      setSelectList([]);
+      setSelectedList([]);
       setList(list.map((item) => ({ ...item, checked: false })));
     }
   };
 
   // 초기화 선택
-  const onClickResetCheckbox = (checked: any) => {
+  const onClickResetCheckbox = (checked: CheckedState) => {
     if (checked) {
       setCheckedNone(true);
     } else {
@@ -66,10 +76,12 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
 
   useEffect(() => {
     if (checkedNone) {
-      if (type === 'default') {
-        setSelectList([0]);
+      // '선택 안함' 설정일때 체크박스가 선택되면 모든 항목을 비활성화하고 선택 해제
+      if (reset && !reset.include) {
+        // 선택된 검사 key 리스트에 0 추가
+        setSelectedList([0]);
       } else {
-        setSelectList([]);
+        setSelectedList([]);
       }
       setList(
         list.map((item) =>
@@ -79,69 +91,68 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
         )
       );
     }
+    // '선택 안함' 설정이 해제되면 선택된 검사 key 리스트 초기화
+    if (!checkedNone && selectedList.includes(0)) {
+      setSelectedList([]);
+    }
   }, [checkedNone]);
 
   useEffect(() => {
-    if (list.length === selectList.length) {
+    // '전체 선택' 체크박스 상태 업데이트
+    if (list.length === selectedList.length) {
       setCheckedAll(true);
     } else {
       setCheckedAll(false);
     }
-  }, [selectList]);
-
-  useEffect(() => {
-    if (includeNA) {
-      setList([
-        { key: 0, value: '해당없음', checked: false, disabled: false },
-        ...data,
-      ]);
-    }
-  }, [data]);
+  }, [selectedList, list.length]);
 
   return (
-    <>
-      {type === 'all' && (
-        <div key={1} className="items-top flex space-x-2 mb-5">
+    <div>
+      {all && (
+        <div className="items-top flex space-x-2 mb-5">
           <Checkbox
-            id="all"
-            variant={'round'}
+            id="all_checkbox"
+            variant={boxType ? boxType : 'default'}
             onCheckedChange={(checked) => onClickAllCheckbox(checked)}
             checked={checkedAll}
           />
           <div className="grid gap-1.5 leading-none">
             <label
-              htmlFor={`all`}
+              htmlFor={`all_checkbox`}
               className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
             >
-              전체 선택
+              {all.label ? all.label : '전체 선택'}
             </label>
           </div>
         </div>
       )}
-      {type === 'none' && (
-        <div key={2} className="items-top flex space-x-2 mb-5">
+      {reset && !reset?.include && (
+        <div className="items-top flex space-x-2 mb-5">
           <Checkbox
-            id="none"
+            id="none_checkbox"
             onCheckedChange={(checked) => onClickResetCheckbox(checked)}
+            checked={checkedNone}
           />
           <div className="grid gap-1.5 leading-none">
             <label
-              htmlFor={`none`}
+              htmlFor={`none_checkbox`}
               className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
             >
-              선택 안함
+              {reset?.label ? reset.label : '선택 안함'}
             </label>
           </div>
         </div>
       )}
       <div className={`grid grid-cols-${cols} gap-4 pb-16`}>
         {list.map((item) => {
-          const id = uuid();
           return (
-            <div key={item.key} className="items-top flex space-x-2">
+            <div
+              key={`${uuidKey}_${item.key.toString()}`}
+              className="items-top flex space-x-2"
+            >
               <Checkbox
-                id={id}
-                variant={type === 'none' ? 'default' : 'round'}
+                id={`${uuidKey}_${item.key.toString()}`}
+                variant={boxType ? boxType : 'default'}
                 checked={item.checked}
                 onCheckedChange={(checked) => {
                   if (item.key === 0) {
@@ -153,7 +164,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
               />
               <div className="grid gap-1.5 leading-none">
                 <label
-                  htmlFor={id}
+                  htmlFor={`${uuidKey}_${item.key.toString()}`}
                   className={cn([
                     'text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer',
                     checkedNone && item.key !== 0 ? 'text-gray-500' : '',
@@ -166,13 +177,7 @@ const CheckboxComponent = ({ type, data, cols, includeNA }: CheckboxProps) => {
           );
         })}
       </div>
-      {/* <div>
-        <div className="font-medium">선택한 id</div>
-        {selectList.map((list) => (
-          <div key={list}>{list}</div>
-        ))}
-      </div> */}
-    </>
+    </div>
   );
 };
 export default CheckboxComponent;

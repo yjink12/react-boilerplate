@@ -1,3 +1,5 @@
+import { CheckboxItem } from '../types/data';
+
 export const menuBarList: { key: string; title: string }[] = [
   {
     key: 'card',
@@ -155,7 +157,7 @@ export const MockLocationList = [
   },
 ];
 
-export const MockTermsList = [
+export const MockTermsList: CheckboxItem[] = [
   {
     key: 1,
     value: '[필수] 개인정보 수집 동의',
@@ -197,7 +199,7 @@ export const MockPillsList = [
   },
 ];
 
-export const MockCheckupList = [
+export const MockCheckupList: CheckboxItem[] = [
   {
     key: 1,
     value: '대장내시경',
@@ -272,7 +274,7 @@ export const MockCheckupList = [
   },
 ];
 
-export const MockDsseList = [
+export const MockDsseList: CheckboxItem[] = [
   {
     key: 1,
     value: '뇌졸중(중풍)',

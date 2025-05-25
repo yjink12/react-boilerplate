@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import CheckboxComponent from '../../../components/basic/CheckboxComponent';
 import RadioComponent from '../../../components/basic/RadioComponent';
 import { questionnaire } from './questionnaire';
 
 const HealthQuestionnaireComponent = () => {
+  const [selectedList, setSelectedList] = useState<number[]>([]);
+
   return (
     <>
       <h1 className="text-xl font-bold text-left">문진표 작성</h1>
@@ -18,10 +21,13 @@ const HealthQuestionnaireComponent = () => {
               )}
               {item.answerType === 'multiple' && (
                 <CheckboxComponent
-                  type={item.includeNA ? 'default' : 'none'}
+                  boxType="round"
                   cols={2}
                   data={item.answerList}
-                  includeNA={item.includeNA}
+                  selectedListData={{
+                    selectedList: selectedList,
+                    setSelectedList: setSelectedList,
+                  }}
                 />
               )}
             </div>
