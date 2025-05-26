@@ -122,37 +122,37 @@ export const MockReserveUserInfo: {
   },
 };
 
-export const MockLocationList = [
+export const MockDistrictList = [
   {
-    id: 1,
+    key: 1,
     label: '전국',
   },
   {
-    id: 2,
+    key: 2,
     label: '서울',
   },
   {
-    id: 3,
+    key: 3,
     label: '인천/경기',
   },
   {
-    id: 4,
+    key: 4,
     label: '경원',
   },
   {
-    id: 5,
+    key: 5,
     label: '대전/충청',
   },
   {
-    id: 6,
+    key: 6,
     label: '부산/대구/울산/경상',
   },
   {
-    id: 7,
+    key: 7,
     label: '광주/전라',
   },
   {
-    id: 8,
+    key: 8,
     label: '제주',
   },
 ];
