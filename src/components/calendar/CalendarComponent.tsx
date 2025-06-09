@@ -6,6 +6,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 import uuid from 'react-uuid';
 import { ScrollArea } from '../ui';
+import { useDeviceMediaQuery } from '../../hook/mediaQuery';
+import { cn } from '../../utils/cn';
 dayjs.locale('ko');
 
 type ValuePiece = Date | null;
@@ -58,6 +60,8 @@ const CalendarComponent = ({ reserveDate, setReserveDate }: CalendarProps) => {
   const [value, setValue] = useState<Value>(new Date());
   const [mark, setMark] = useState(markData);
   const [scheduleList, setScheduleList] = useState<string[]>([]);
+
+  const isMobile = useDeviceMediaQuery().isMobile;
   /** 선택 날짜 */
   // const { setReserveDate } = useTestStore((state) => state);
 
@@ -76,9 +80,12 @@ const CalendarComponent = ({ reserveDate, setReserveDate }: CalendarProps) => {
 
   return (
     <ScrollArea className="h-5/6 w-full rounded-md border-none">
-      <div className="flex flex-col justify-between items-center">
+      <div className="flex flex-col justify-between items-center gap-6">
         <div>
           <Calendar
+            className={cn([
+              isMobile ? 'max-w-[340px] p-2' : 'min-w-[750px] p-3',
+            ])}
             value={value}
             calendarType="gregory"
             onChange={handleDateChange}
