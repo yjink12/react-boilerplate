@@ -6,7 +6,7 @@ const InfiniteScrollContent = (): React.ReactElement => {
   const [items, setItems] = useState<{ name: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(15);
+  const [size, setSize] = useState(13);
   const [isLast, setIsLast] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const env = process.env.NODE_ENV;
@@ -40,14 +40,10 @@ const InfiniteScrollContent = (): React.ReactElement => {
       data = getUsers(size, page);
     }
 
-    if (items.length > 0) {
-      if (data.data.length === 0) {
-        setIsLast(true);
-      } else {
-        setItems([...items, ...data.data]);
-      }
+    if (data.data.length === 0) {
+      setIsLast(true);
     } else {
-      setItems(data.data);
+      setItems((items) => [...items, ...data.data]);
     }
     setLoading(false);
   };
