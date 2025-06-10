@@ -41,6 +41,18 @@ export const menuBarList: { key: string; title: string }[] = [
     key: 'dialog',
     title: 'Dialog',
   },
+  {
+    key: 'infiniteScroll',
+    title: 'InfiniteScroll',
+  },
+  {
+    key: 'infiniteScrollObserver',
+    title: 'InfiniteScroll2',
+  },
+  {
+    key: 'pagination',
+    title: 'Pagination',
+  },
 ];
 
 export const MockUserInfoLabel = [
