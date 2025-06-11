@@ -6,7 +6,7 @@ const InfiniteScrollObserverContent = (): React.ReactElement => {
   const [items, setItems] = useState<{ name: string; content: string }[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [size, setSize] = useState(15);
+  const [size, setSize] = useState(10);
   const env = process.env.NODE_ENV;
   // console.log('env', env);
 
