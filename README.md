@@ -85,7 +85,7 @@ https://react-boilerplate-neon.vercel.app/
   - 메뉴의 콘텐츠들을 컴포넌트로 분리하고 컴포넌트와 menu 를 매핑할 수 있는 container 를 생성
   - 객체 매핑을 통해서 컴포넌트를 동적으로 가져오기
 
-### **3. 반응형**
+### **3. 반응형 / 마크업**
 
 [react-responsive](https://swamp-bass-b68.notion.site/react-responsive-20d204588dd680e2aa34dd028ecad4a0?source=copy_link)
 
@@ -95,6 +95,13 @@ https://react-boilerplate-neon.vercel.app/
 | 기존 | 반응형 |
 |:---:|:---:|
 | <img src="https://github.com/user-attachments/assets/edc92f28-d246-45c5-8ed2-60770d5c0ad2" width="300"> | <img src="https://github.com/user-attachments/assets/4bc02c56-8b20-44a3-ad15-a6ebf1f49b3d" width="300"> |
+
+
+[마크업/시맨틱 태그](https://swamp-bass-b68.notion.site/20f204588dd68033998ce00dcd1fd087?source=copy_link)
+
+| og tag | semantic tag |
+|:---:|:---:|
+| <img src="https://github.com/user-attachments/assets/c8e70a3f-2bf1-4b3e-bd27-d7d5e61b5425" width="400"> | <img src="https://github.com/user-attachments/assets/be7ee90d-9061-4121-818a-6da1d5e6f8f2" width="400"> |
 
 
 ---
