@@ -1,39 +1,40 @@
-import * as React from "react";
-import { cn } from "../../utils/cn";
-import { cva, VariantProps } from "class-variance-authority";
+import * as React from 'react';
+import { cn } from '../../utils/cn';
+import { cva, VariantProps } from 'class-variance-authority';
 
-const CardHeaderVariants = cva("flex flex-col space-y-1.5 p-6", {
+const CardHeaderVariants = cva('flex flex-col space-y-1.5 p-6', {
   variants: {
     variant: {
-      default: "flex flex-col space-y-1.5 p-1",
+      default: 'flex flex-col space-y-1.5 p-1',
       // noHeader: "flex flex-col space-y-1.5 p-1",
-      info: "p-3 bg-info text-info-foreground bg-slate-400 rounded-t-2xl text-left",
+      info: 'p-3 bg-info text-info-foreground bg-slate-400 rounded-t-2xl text-left',
+      image: 'flex flex-col space-y-1.5 p-1',
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
 });
 
 const CardTitleVariants = cva(
-  "text-2xl font-semibold leading-none tracking-tight",
+  'text-2xl font-semibold leading-none tracking-tight',
   {
     variants: {
       variant: {
-        default: "font-semibold leading-none tracking-tight",
-        info: "font-medium leading-none tracking-tight text-white px-2",
+        default: 'font-semibold leading-none tracking-tight',
+        info: 'font-medium leading-none tracking-tight text-white px-2',
       },
       textSize: {
-        default: "text-2xl",
-        sm: "text-sm",
-        md: "text-md",
-        lg: "text-lg",
-        xl: "text-xl",
+        default: 'text-2xl',
+        sm: 'text-sm',
+        md: 'text-md',
+        lg: 'text-lg',
+        xl: 'text-xl',
       },
     },
     defaultVariants: {
-      variant: "default",
-      textSize: "default",
+      variant: 'default',
+      textSize: 'default',
     },
   }
 );
@@ -53,13 +54,13 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-2xl border bg-card text-card-foreground shadow-sm",
+      'rounded-2xl border bg-card text-card-foreground shadow-sm',
       className
     )}
     {...props}
   />
 ));
-Card.displayName = "Card";
+Card.displayName = 'Card';
 
 const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
   ({ className, variant, ...props }, ref) => (
@@ -70,7 +71,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
     />
   )
 );
-CardHeader.displayName = "CardHeader";
+CardHeader.displayName = 'CardHeader';
 
 const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(
   ({ className, variant, textSize, ...props }, ref) => (
@@ -81,7 +82,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, CardTitleProps>(
     />
   )
 );
-CardTitle.displayName = "CardTitle";
+CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
@@ -89,19 +90,19 @@ const CardDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn('text-sm text-muted-foreground', className)}
     {...props}
   />
 ));
-CardDescription.displayName = "CardDescription";
+CardDescription.displayName = 'CardDescription';
 
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+  <div ref={ref} className={cn('p-6 pt-0', className)} {...props} />
 ));
-CardContent.displayName = "CardContent";
+CardContent.displayName = 'CardContent';
 
 const CardFooter = React.forwardRef<
   HTMLDivElement,
@@ -109,11 +110,11 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center p-6 pt-0", className)}
+    className={cn('flex items-center p-6 pt-0', className)}
     {...props}
   />
 ));
-CardFooter.displayName = "CardFooter";
+CardFooter.displayName = 'CardFooter';
 
 export {
   Card,

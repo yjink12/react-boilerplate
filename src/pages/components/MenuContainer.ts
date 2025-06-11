@@ -5,12 +5,13 @@ import DialogContent from './content/DialogContent';
 import DrawerContent from './content/DrawerContent';
 import FilterContent from './content/FilterContent';
 import FormContent from './content/FormContent';
-import InfiniteScrollContent from './content/InfiniteScrollContent';
-import InfiniteScrollObserverContent from './content/InfiniteScrollObserverContent';
+import InfiniteScrollContent from './content/scroll/InfiniteScrollContent';
+import InfiniteScrollObserverContent from './content/scroll/InfiniteScrollObserverContent';
 import PaginationContent from './content/PaginationContent';
 import RadioContent from './content/RadioContent';
 import SkeletonContent from './content/SkeletonContent';
 import StepsContent from './content/StepsContent';
+import InfiniteScrollReactObserverContent from './content/scroll/InfiniteScrollReactObserverContent';
 
 export type MenuName =
   | 'card'
@@ -25,7 +26,8 @@ export type MenuName =
   | 'dialog'
   | 'infiniteScroll'
   | 'infiniteScrollObserver'
-  | 'pagination';
+  | 'infiniteScrollReactObserver';
+// | 'pagination';
 
 type MenuContents = {
   [key in MenuName]: () => JSX.Element;
@@ -44,5 +46,6 @@ export const MenuContainer: MenuContents = {
   dialog: DialogContent,
   infiniteScroll: InfiniteScrollContent,
   infiniteScrollObserver: InfiniteScrollObserverContent,
-  pagination: PaginationContent,
+  infiniteScrollReactObserver: InfiniteScrollReactObserverContent,
+  // pagination: PaginationContent,
 };
