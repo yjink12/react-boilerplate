@@ -13,15 +13,15 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <Header pathName={currentPath.pathname} />
-      </header>
       <article
         className={cn([
           'w-full min-h-[80vh] mx-auto bg-white flex-1',
           isMobile ? 'w-[360px]' : 'w-[768px]',
         ])}
       >
+        <header>
+          <Header pathName={currentPath.pathname} />
+        </header>
         <section>
           <Router />
         </section>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menubar, MenubarMenu, MenubarTrigger } from '../components/ui';
-import { menuBarList } from '../utils/mockData';
 import { MenuContainer, MenuName } from './components/MenuContainer';
+import { menuBarList } from '../utils/data';
 
 const MainPage = (): React.ReactElement => {
   const [selectedMenu, setSelectedMenu] = useState<MenuName>('card');
@@ -27,7 +27,7 @@ const MainPage = (): React.ReactElement => {
           );
         })}
       </Menubar>
-      <div className="mt-10 pt-6 pl-7 pr-7">
+      <div className="mt-4 pt-6 pl-7 pr-7">
         <SelectedContent />
       </div>
     </div>
