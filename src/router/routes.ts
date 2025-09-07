@@ -1,4 +1,5 @@
 import TestPage from '../pages';
+import AnimationPage from '../pages/animation';
 import TestReservePage from '../pages/reserve';
 
 export const routes = [
@@ -9,5 +10,9 @@ export const routes = [
   {
     path: '/reserve',
     element: TestReservePage,
+  },
+  {
+    path: '/animations',
+    element: AnimationPage,
   },
 ];

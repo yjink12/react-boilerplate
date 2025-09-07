@@ -11,14 +11,10 @@ import {
 import { cn } from '../../../utils/cn';
 
 interface FormComponentProps {
-  form: UseFormReturn<
-    {
-      email: string;
-      address: string;
-    },
-    any,
-    undefined
-  >;
+  form: UseFormReturn<{
+    email: string;
+    address: string;
+  }>;
 }
 
 const FormComponent = ({ form }: FormComponentProps) => {
