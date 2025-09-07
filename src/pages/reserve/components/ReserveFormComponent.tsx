@@ -14,15 +14,11 @@ import { useModal } from '../../../hook/useModal';
 import { useState } from 'react';
 
 interface ReserveFormComponentProps {
-  form: UseFormReturn<
-    {
-      hospital: string;
-      fstWishDate: string;
-      sndWishDate: string;
-    },
-    any,
-    undefined
-  >;
+  form: UseFormReturn<{
+    hospital: string;
+    fstWishDate: string;
+    sndWishDate: string;
+  }>;
 }
 
 const ReserveFormComponent = ({ form }: ReserveFormComponentProps) => {
